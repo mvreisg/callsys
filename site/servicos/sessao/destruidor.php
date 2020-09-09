@@ -3,7 +3,7 @@
         session_destroy();
         $_SESSION = array();
         
-        $scriptDestruidorRedirecionadorPaginaLogin = "<script>location.replace('https://" . $_SERVER['SERVER_NAME'] . "/paginas/login.php');</script>";
-        print($scriptDestruidorRedirecionadorPaginaLogin);              
+        print("<script>");
+        print("location.replace('http://{$_SERVER['SERVER_NAME']}/estagio/site/');");
+        print("</script>");  
     }   
-?>

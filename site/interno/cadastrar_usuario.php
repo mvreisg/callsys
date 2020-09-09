@@ -61,12 +61,46 @@
                     </ul>            
                 </li>                
             </ul>
-        </nav>        
-        <section>
-            <h1>Bem-vindo ao Sistema!</h1>            
-        </section>
-        <footer>
+        </nav> 
+        <div class="corpo">
+            <h1 style=" color: black">Cadastrar Usuarios</h1>
+            <form>
+                <p>Nome</p>
+                <input type="text" name="" >
+                <p>Usuario</p>
+                <input type="text" name="">
+                <p>Senha</p>
+                <input type="text" name=""><br>
+
+                <label for="funcao">Função:</label>
+                <select name="funcao" id="funcao">
+                  <option value="enf">Enfermeiro</option>
+                  <option value="adm">Adiministrativo</option>
+                  <option value="medico">Medico</option>
+                </select><br>
+
+                <label for="setor">Setor:</label>
+                <select name="setor" id="setor">
+                  <option value="amb">ambulatorio</option>
+                  <option value="adm">Adiministrativo</option>
+                  <option value="ti">tecnologia da informação</option>
+                </select><br>
+
+                <label for="nvlacess">Nivel de acesso:</label>
+                <select name="funcao" id="funcao">
+                  <option value="user">usuario</option>
+                  <option value="supervisor">Supervisor</option>
+                  <option value="TI">Ti</option>
+                </select><br>
+               
+                <input type="checkbox" name="ativo">
+                <label for="ativo">Ativo</label>
+                <input type="submit" name="" value="Confirmar">
+                <input type="submit" name="" value="Cancelar">
+            </form>
+        </div>
+        <footer class="pe">
             <p>Versão do sistema: Demo alpha 0.1</p>
-        </footer>          
+        </footer>
     </body>
 </html>

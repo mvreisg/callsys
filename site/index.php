@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
     <head>
-        <link rel="stylesheet" type="text/css" href="estilos/estilo_index.css"/>
+        <link rel="stylesheet" type="text/css" href="estilos/index.css"/>
         <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet"/>
         <meta charset="utf-8"/>
         <title>CallSYS</title>
@@ -30,7 +30,7 @@
                     }                    
                 }                
             ?>
-            <form name="form_autenticacao" action="sessao/autenticador.php" method="post">
+            <form name="form_autenticacao" action="servicos/sessao/autenticador.php" method="post">
                 <!-- input hidden que contém o nome do form pra receber no post da autenticação -->
                 <!-- <input type="hidden" name="form_autenticacao"/> -->
                 <label for="usuario">Usuario</label>

@@ -61,11 +61,19 @@
                     </ul>            
                 </li>                
             </ul>
-        </nav>        
-        <section>
-            <h1>Bem-vindo ao Sistema!</h1>            
-        </section>
-        <footer>
+        </nav>         
+        <div class="corpo">
+            <h1 style=" color: black">Cadastro de Setor</h1>
+            <form></form>
+                <p>Setor</p>
+                <input type="text" name="">
+                <input type="checkbox" name="ativo">
+                <label for="ativo">Ativo</label>
+                <input type="submit" name="" value="Confirmar">
+                <input type="reset" name="" value="Cancelar">
+            </form>
+        </div>
+        <footer class="pe">
             <p>Versão do sistema: Demo alpha 0.1</p>
         </footer>          
     </body>

@@ -1,6 +1,6 @@
 <?php              
     //importa a sessao
-    include_once("../sessao/inicializador.php");   
+    include_once("inicializador.php");   
 
     //importa o pdo
     include_once("../conexao/pdo.php");
@@ -15,8 +15,7 @@
         try{            
             //consulta no banco se o usuario existe
             $select = "select * from usuario where usuario = '" . $usuarioPOST . "' and senha = '" . $senhaPOST . "';";
-            $query = $pdo->query($select); 
-
+            $query = $pdo->query($select);                                     
             //retorna a quantidade de linhas encontradas
             $quantidadeLinhas = $query->rowCount();
             $_SESSION['temAutenticacao'] = $quantidadeLinhas >= 1;            
@@ -25,18 +24,19 @@
             print($e);
         }                                    
     }    
+    print("<p>autenticado: {$_SESSION['temAutenticacao']}</p>");
 
     if ($_SESSION['temAutenticacao']){
         //está cadastrado e autenticado, logo pode entrar no site
-        $_SESSION['estaLogado'] = true;            
-
-        //redirecionamento para a pagina principal
-        $scriptAutenticacaoRedirecionadorPaginaPrincipal = "<script>location.replace('" . $_SERVER['SERVER_NAME'] . "/paginas/interno/principal.php');</script>";
-        print($scriptAutenticacaoRedirecionadorPaginaPrincipal);        
+        $_SESSION['estaLogado'] = true;                    
+        //redirecionamento para a pagina principal        
+        print("<script>");
+        print("location.replace('http://{$_SERVER['SERVER_NAME']}/estagio/site/interno/principal.php');");
+        print("</script>");        
     }
     else{
-        //retorno para a página de login
-        $scriptAutenticacaoRedirecionadorPaginaLogin = "<script>location.replace('" . $_SERVER['SERVER_NAME'] . "/paginas/login.php');</script>";
-        print($scriptAutenticacaoRedirecionadorPaginaLogin);        
+        //retorno para a página de login                
+        print("<script>");
+        print("location.replace('http://{$_SERVER['SERVER_NAME']}/estagio/site/');");
+        print("</script>");        
     }
-?> 
