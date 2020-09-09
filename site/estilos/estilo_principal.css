@@ -1,0 +1,45 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {    
+    background-size: cover;
+    background-color: #f2f2f2;
+    font-family: "Comfortaa", sans-serif;
+}
+
+nav ul{
+    border: 2px solid white;
+    margin: 0px;
+    padding: 0px;
+    background-color: rgb(0, 179, 179);
+}
+
+nav ul li{
+    display: inline-table;
+    padding: 20px 20px;
+    cursor: pointer;
+}
+
+nav ul li:hover {
+    transition: 0.2s;
+    background-color: #ff4da6;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+}
+
+footer{
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    padding: 10px 10px; 
+    border: 2px solid white;
+    background-color: rgb(0, 179, 179);
+    font-size: 12px;
+    color: white;        
+}
+
