@@ -31,12 +31,12 @@
         $_SESSION['estaLogado'] = true;            
 
         //redirecionamento para a pagina principal
-        $scriptAutenticacaoRedirecionadorPaginaPrincipal = "<script>location.replace('https://" . $_SERVER['SERVER_NAME'] . "/paginas/interno/principal.php');</script>";
+        $scriptAutenticacaoRedirecionadorPaginaPrincipal = "<script>location.replace('" . $_SERVER['SERVER_NAME'] . "/paginas/interno/principal.php');</script>";
         print($scriptAutenticacaoRedirecionadorPaginaPrincipal);        
     }
     else{
         //retorno para a página de login
-        $scriptAutenticacaoRedirecionadorPaginaLogin = "<script>location.replace('https://" . $_SERVER['SERVER_NAME'] . "/paginas/login.php');</script>";
+        $scriptAutenticacaoRedirecionadorPaginaLogin = "<script>location.replace('" . $_SERVER['SERVER_NAME'] . "/paginas/login.php');</script>";
         print($scriptAutenticacaoRedirecionadorPaginaLogin);        
     }
 ?> 

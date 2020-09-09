@@ -4,7 +4,7 @@
 }
 
 body {    
-    background-image: url(/imgs/login/background.jpg);
+    background-image: url(./../imgs/login/background.jpg);
     background-size: cover;
     font-family: "Comfortaa", sans-serif;
 }

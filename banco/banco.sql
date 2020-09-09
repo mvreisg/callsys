@@ -1,62 +1,61 @@
-/*BANCO
-    MariaDB
-*/
+/* BANCO: MariaDB */
 
 /*CREATES*/
+create database callsys;
+
 create table setor (
-    numero int primary key auto_increment,
+    id int zerofill unsigned primary key auto_increment,
     nome varchar(50) not null,
     ativo boolean not null
 );
 
 create table funcao (
-    codigo int primary key auto_increment,
+    id int zerofill unsigned primary key auto_increment,
     nome varchar(50) not null,
     ativo boolean not null
 );
 
 create table nivel_acesso (
-    codigo int primary key auto_increment,
-    nome varchar(20) not null,
+    id int zerofill unsigned primary key auto_increment,
+    nome varchar(50) not null,
     ativo boolean not null
 );
 
 create table usuario (
-    codigo int primary key auto_increment,
-    nome varchar(50) not null,
+    id int zerofill unsigned primary key auto_increment,
+    id_setor int unsigned zerofill not null,
+    id_funcao int unsigned zerofill not null,
+    id_nivel_acesso int unsigned zerofill not null,
+    nome varchar(100) not null,
     usuario varchar(10) not null,
     senha varchar(10) not null,
-    ativo boolean not null,
-    numero_setor int not null,
-    codigo_funcao int not null,
-    codigo_nivel_acesso int not null,
-    foreign key (numero_setor) references setor (numero),
-    foreign key (codigo_funcao) references funcao (codigo),
-    foreign key (codigo_nivel_acesso) references nivel_acesso (codigo)
+    ativo boolean not null,    
+    foreign key (id_setor) references setor (id),
+    foreign key (id_funcao) references funcao (id),
+    foreign key (id_nivel_acesso) references nivel_acesso (id)
 );
 
 create table equipamento (
-    codigo int primary key auto_increment,
-    nome varchar(50) not null,
-    quantidade int not null,
+    id int zerofill unsigned primary key auto_increment,
+    nome varchar(50) not null,    
     ativo boolean not null,
     data_hora_cadastro datetime not null
 );
 
 create table solicitacao (
-    codigo int primary key auto_increment,
-    estado int not null,
-    data_hora datetime not null
+    id int zerofill unsigned primary key auto_increment,
+    id_usuario int unsigned zerofill not null,
+    estado int unsigned not null,
+    descricao_problema varchar(1000),
+    data_hora_solicitacao datetime not null
 );
 
-create table usuario_realiza_solicitacao_equipamento (
-    codigo int primary key auto_increment,
-    codigo_usuario int not null,
-    codigo_equipamento int not null,
-    codigo_solicitacao int not null,
-    foreign key (codigo_usuario) references usuario (codigo),
-    foreign key (codigo_equipamento) references equipamento (codigo),
-    foreign key (codigo_solicitacao) references solicitacao (codigo)
+create table equipamento_solicitacao (
+    id int zerofill unsigned primary key auto_increment,
+    id_solicitacao int unsigned zerofill not null,
+    id_equipamento int unsigned zerofill not null,
+    foreign key (id_solicitacao) references solicitacao (id),
+    foreign key (id_equipamento) references equipamento (id)
 );
 
 /*INSERTS TESTE*/
@@ -65,7 +64,7 @@ insert into setor (
     ativo
 ) 
 values (
-    'Setor Teste', 
+    'Setor Desenvolvimento', 
     1
 );
 
@@ -74,7 +73,7 @@ insert into funcao (
     ativo
 ) 
 values (
-    'Função Teste', 
+    'Desenvolvedor', 
     1
 );
 
@@ -83,58 +82,58 @@ insert into nivel_acesso (
     ativo
 ) 
 values (
-    'DEV', 
+    'Desenvolvedor', 
     1
 );
 
 insert into usuario (
+    id_setor,
+    id_funcao,
+    id_nivel_acesso,
     nome, 
     usuario, 
     senha, 
-    ativo, 
-    numero_setor, 
-    codigo_funcao, 
-    codigo_nivel_acesso
+    ativo 
 )
 values (
-    'Dev',
-    'd',
-    'e',
     1,
     1,
     1,
-    1
+    'admin',
+    'admin@',
+    'admin',
+    1    
 );
 
 insert into equipamento (
     nome,
-    quantidade,
     ativo,
     data_hora_cadastro
 )
 values (
-    "Mouse Logitech",
-    3,
+    'Mouse',    
     1,
     NOW()
 );
 
 insert into solicitacao (    
+    id_usuario,
     estado,
-    data_hora
+    descricao_problema,
+    data_hora_solicitacao
 )
 values (
-    0,
+    1,
+    1,
+    'Mouse com defeito',
     NOW()
 );
 
-insert into usuario_realiza_solicitacao_equipamento (    
-    codigo_usuario,
-    codigo_equipamento,
-    codigo_solicitacao
+insert into equipamento_solicitacao (    
+    id_solicitacao,
+    id_equipamento    
 )
 values (
     1,
-    1,
-    1
+    1    
 );

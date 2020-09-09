@@ -1,11 +1,11 @@
 <?php 
     //importa a sessao
-    include_once("sessao/inicializador.php");
+    include_once("servicos/sessao/inicializador.php");
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
     <head>
-        <link rel="stylesheet" type="text/css" href="/estilos/estilo_login.css"/>
+        <link rel="stylesheet" type="text/css" href="estilos/estilo_index.css"/>
         <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet"/>
         <meta charset="utf-8"/>
         <title>CallSYS</title>
@@ -13,7 +13,7 @@
     <body>    
         <?php 
             //importa o destruidor de sessões
-            include_once("sessao/destruidor.php");
+            include_once("servicos/sessao/destruidor.php");
         ?>            
         <div class="login">
             <h1>CallSYS</h1>
