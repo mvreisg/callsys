@@ -1,20 +1,43 @@
 <?php     
     session_start();      
+
+    // Checa se há registro de login
+    if (isset($_SESSION['logado'])){        
+        // Senão, checa se está logado
+        if ($_SESSION['logado']){        
+            // Se sim, desloga
+            // Zera toda a sessão
+            session_unset();
+
+            // Destrói a sessão
+            session_destroy();  
+            
+            // Reinicia a sessão
+            session_start();
+        }   
+    }    
+    $_SESSION['logado'] = false;
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
     <head>
-        <link rel="stylesheet" type="text/css" href="estilos/index.css"/>
-        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="./estilos/fontes.css"/>
+        <link rel="stylesheet" type="text/css" href="./estilos/index.css"/>                
         <meta charset="utf-8"/>
-        <title>CallSYS</title>
+        <title>CallSYS - Login</title>
     </head>        
     <body>            
         <div class="login">
             <h1>
                 CallSYS
             </h1>
-            <?php                                 
+            <?php             
+                if ($_SESSION['logado']){
+                    //print "<script>alert('logado');</script>";
+                }   
+                else{
+                    //print "<script>alert('nao logado');</script>";
+                }                 
                 // Recebe o GET para ver se o login for invalidado
                 $loginInvalido = false;                
                 if (isset($_GET['loginInvalido'])){                        

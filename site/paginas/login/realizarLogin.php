@@ -1,10 +1,12 @@
 <?php              
+    session_start();
+
     require_once "../../servicos/login/Login.php";    
 
     $podeLogar = false;    
     if (isset($_POST['usuario']) && isset($_POST['senha'])){                
         $login = new Login($_POST['usuario'], $_POST['senha']);
-        $podeLogar = $login->logar();            
+        $podeLogar = $login->podeLogar();            
     }                
     
     $_SESSION['logado'] = $podeLogar;                        
@@ -14,12 +16,12 @@
     '<?php 
         $url = "http://{$_SERVER['SERVER_NAME']}";
         if ($_SESSION['logado']){
-            $url .= "/estagio/site/paginas/principal.php";
+            $url .= "/estagio/site/paginas/interno/inicio.php";
         }
         else{
             $url .= "/estagio/site/index.php?loginInvalido=true";
         }
         print $url;                
-    ?>';
+    ?>';    
     location.href = urlRedirecionamento;
 </script>

@@ -10,7 +10,7 @@
             $this->senha = $senha;
         }
 
-        public function logar() {
+        public function podeLogar() {
             $pdo = Conexao::get();
             try{
                 $select = "select * from usuario where usuario = '$this->usuario' and senha = '$this->senha';";
