@@ -1,6 +1,5 @@
-<?php 
-    //importa a sessao
-    include_once("servicos/sessao/inicializador.php");
+<?php     
+    session_start();      
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
@@ -10,34 +9,38 @@
         <meta charset="utf-8"/>
         <title>CallSYS</title>
     </head>        
-    <body>    
-        <?php 
-            //importa o destruidor de sessões
-            include_once("servicos/sessao/destruidor.php");
-        ?>            
+    <body>            
         <div class="login">
-            <h1>CallSYS</h1>
-            <?php 
-                if (isset($_SESSION['submitouFormAutenticacao']) && isset($_SESSION['temAutenticacao'])){                    
-                    if ($_SESSION['submitouFormAutenticacao'] && !$_SESSION['temAutenticacao']){
-                        //coloca como falso caso o usuário dê refresh na página 
-                        //para o aviso não persistir
-                        $_SESSION['submitouFormAutenticacao'] = false;
-
-                        //printa a mensagem de credenciais inválidas
-                        $mensagemLoginInvalido = "<p style='color: red; margin: 4px 0px;'>Login e/ou senha inválidos!</p>";           
-                        print($mensagemLoginInvalido);                                  
-                    }                    
+            <h1>
+                CallSYS
+            </h1>
+            <?php                                 
+                // Recebe o GET para ver se o login for invalidado
+                $loginInvalido = false;                
+                if (isset($_GET['loginInvalido'])){                        
+                    $loginInvalido = $_GET['loginInvalido'];                          
                 }                
+                
+                if ($loginInvalido){
+                    // TODO: fazer em JavaScript                                                
+                    print "<p style='color: red; margin: 4px 0px;'>";           
+                    print "Login e/ou senha inválidos!";           
+                    print "</p>";        
+                }
             ?>
-            <form name="form_autenticacao" action="servicos/sessao/autenticador.php" method="post">
-                <!-- input hidden que contém o nome do form pra receber no post da autenticação -->
-                <!-- <input type="hidden" name="form_autenticacao"/> -->
-                <label for="usuario">Usuario</label>
+            <form name="form_autenticacao" action="paginas/login/realizarLogin.php" method="post">                                
+                <label for="usuario">
+                    Usuario
+                </label>
                 <input type="text" name="usuario" maxlength="10" placeholder="Insira seu usuario" required/>                
-                <label for="senha">Senha</label>
+
+                <label for="senha">
+                    Senha
+                </label>
                 <input type="password" name="senha" maxlength="10" placeholder="Insira sua senha" required/>
-                <input type="submit" name="submit" value="Login"/>                
+
+                <input type="submit" name="submitLogin" value="Login"/>                
+
                 <a href="#">Esqueceu sua senha?</a>  
             </form>
         </div>
