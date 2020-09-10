@@ -10,19 +10,17 @@
         <link rel="stylesheet" type="text/css" href="../../estilos/fontes.css"/>
         <link rel="stylesheet" type="text/css" href="../../estilos/interno.css"/>        
         <meta charset="utf-8"/>
-        <title>Início</title>        
+        <title>CallSYS - Início</title>        
     </head>
     <body>              
         <nav>
-            <?php 
-                require_once "nav.php";
-            ?>
+            <?php require_once "nav.php"; ?>
         </nav>        
         <section>
             <h1>Bem-vindo ao Sistema!</h1>            
         </section>
         <footer>
-            <p>Versão do sistema: Demo alpha 0.1</p>
+            <?php require_once "footer.php"; ?>
         </footer>          
     </body>
 </html>

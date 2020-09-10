@@ -33,6 +33,10 @@ nav a:hover {
     background-color: #ff4da6;
 }
 
+section {
+    padding: 10px;
+}
+
 footer{
     bottom: 0;
     position: fixed;
