@@ -24,9 +24,6 @@
                         case "sucesso":
                             print "<p style='color: green;'>Função cadastrado com sucesso</p>";                                                
                         break;
-                        case "falha":
-                            print "<p style='color: red;'>Falha ao inserir a função</p>";                                                
-                        break;
                     }                             
                 }
             ?>

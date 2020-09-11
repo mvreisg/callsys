@@ -24,9 +24,6 @@
                         case "sucesso":
                             print "<p style='color: green;'>Setor cadastrado com sucesso</p>";                                                
                         break;
-                        case "falha":
-                            print "<p style='color: red;'>Falha ao inserir o setor</p>";                                                
-                        break;
                     }                             
                 }
             ?>

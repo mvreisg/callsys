@@ -2,13 +2,13 @@
     session_start();
         
     require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";     
-    require_once "Setor.php";
+    require_once "NivelAcesso.php";
 
     $prefixoURL = Request::PREFIXO_URL;
 
     if (isset($_POST['confirmar'])){
         // Objeto Equipamento
-        $setor = null;
+        $nivelAcesso = null;
 
         // Parâmetros do POST
         $nome = "";
@@ -19,19 +19,19 @@
         if (isset($_POST['ativo'])){
             $ativo = $_POST['ativo'];
         }
-        $setor = new Setor(
+        $nivelAcesso = new NivelAcesso(
             null,
             $nome,
             $ativo ? 1 : 0            
         );
-        $linhasAfetadas = $setor->inserir();
+        $linhasAfetadas = $nivelAcesso->inserir();
     }
 ?>
 <script>        
     var urlRedirecionamento = 
     '<?php     
         if ($linhasAfetadas > 0) {            
-            print "$prefixoURL{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/setor/cadastro.php?insert=sucesso";
+            print "$prefixoURL{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/nivel_acesso/cadastro.php?insert=sucesso";
         }
     ?>';
     location.href = urlRedirecionamento;

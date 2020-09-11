@@ -19,16 +19,12 @@
         if (isset($_POST['ativo'])){
             $ativo = $_POST['ativo'];
         }
-        print "ativo: $ativo";
-        print "<br>";
         $funcao = new Funcao(
             null,
             $nome,
             $ativo ? 1 : 0            
         );
-        //var_dump($equipamento);
         $linhasAfetadas = $funcao->inserir();
-        print "$linhasAfetadas linha(s) afetadas";
     }
 ?>
 <script>        

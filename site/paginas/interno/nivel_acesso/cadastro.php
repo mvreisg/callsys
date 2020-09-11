@@ -17,7 +17,17 @@
         </nav> 
         <section>
             <h1>Cadastrar Nível de Acesso</h1>
-            <form name="form_cadastro_nivel_acesso" action="" method="post">
+            <?php                 
+                // TODO: invalidar GET após recebimento
+                if (isset($_GET['insert'])){
+                    switch($_GET['insert']){
+                        case "sucesso":
+                            print "<p style='color: green;'>Função cadastrado com sucesso</p>";                                                
+                        break;
+                    }                             
+                }
+            ?>
+            <form name="form_cadastro_nivel_acesso" action="../../../servicos/cadastro/nivel_acesso/cadastro.php" method="post">
                 <!-- Nome -->
                 <div>
                     <label class="block" for="nome">Nome</label>
