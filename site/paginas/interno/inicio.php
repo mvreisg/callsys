@@ -1,26 +1,26 @@
 <?php 
-    session_start();        
-    
-    // Importa o arquivo que checa se há login
-    require_once "../login/temLogin.php";
+    session_start();                
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
     <head>
         <link rel="stylesheet" type="text/css" href="../../estilos/fontes.css"/>
-        <link rel="stylesheet" type="text/css" href="../../estilos/interno.css"/>        
+        <link rel="stylesheet" type="text/css" href="../../estilos/interno.css"/>
         <meta charset="utf-8"/>
-        <title>CallSYS - Início</title>        
+        <title>CallSYS - Início</title>
     </head>
-    <body>              
+    <body>
         <nav>
             <?php require_once "nav.php"; ?>
-        </nav>        
+        </nav>
         <section>
-            <h1>Bem-vindo ao Sistema!</h1>            
+            <h1>Bem-vindo ao Sistema!</h1>
         </section>
         <footer>
             <?php require_once "footer.php"; ?>
-        </footer>          
+        </footer>
     </body>
 </html>
+<?php
+    require_once "../../servicos/login/verificarLogin.php";
+?>
