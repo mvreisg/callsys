@@ -37,11 +37,11 @@
                 // Recebe o GET para ver se o login for invalidado
                 $loginInvalido = false;
                 if (isset($_GET['loginInvalido'])){
+                    // TODO: invalidar GET após recebimento
                     $loginInvalido = $_GET['loginInvalido'];
                 }
                 
-                if ($loginInvalido){
-                    // TODO: fazer em JavaScript
+                if ($loginInvalido){                    
                     print "<p style='color: red; margin: 4px 0px;'>";
                     print "Login e/ou senha inválidos!";
                     print "</p>";

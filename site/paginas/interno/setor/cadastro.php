@@ -17,7 +17,21 @@
         </nav> 
         <section>
             <h1>Cadastrar Setor</h1>
-            <form name="form_cadastro_setor" action="" method="post">
+            <?php                 
+                // TODO: invalidar GET após recebimento
+                if (isset($_GET['insert'])){
+                    switch($_GET['insert']){
+                        case "sucesso":
+                            print "<p style='color: green;'>Setor cadastrado com sucesso</p>";                                                
+                        break;
+                        case "falha":
+                            print "<p style='color: red;'>Falha ao inserir o setor</p>";                                                
+                        break;
+                    }         
+                    $_GET['insert'] = null;
+                }
+            ?>
+            <form name="form_cadastro_setor" action="../../../servicos/cadastro/setor/cadastro.php" method="post">
                 <!-- Nome -->
                 <div>
                     <label class="block" for="nome">Nome</label>

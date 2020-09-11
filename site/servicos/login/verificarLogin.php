@@ -1,16 +1,24 @@
-<script type="text/javascript">
+<?php 
+    require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";
+
+    $prefixoURL = Request::PREFIXO_URL;
+?>
+<script type="text/javascript">    
     var logado = <?php     
         // Checa se há login
-        if ($_SESSION['logado']){                    
-            print 1;
+        if (!isset($_SESSION['logado'])){
+            print false;
+        }        
+        elseif ($_SESSION['logado']){                    
+            print true;
         }                   
         else{
-            print 0;
+            print false;
         }                 
     ?>;
-    //alert('logado: ' + logado);
-    if (logado == 0){
-        location.href = <?php print "{$_SERVER['SERVER_NAME']}/estagio/site/index.php" ?>;
+    //alert('logado: ' + logado);    
+    if (logado == 0){        
+        location.href = '<?php print "$prefixoURL{$_SERVER['SERVER_NAME']}/estagio/site/index.php" ?>';
     }
 </script>
 

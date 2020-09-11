@@ -11,10 +11,10 @@
         }
 
         public function podeLogar() {
-            $pdo = Conexao::get();
+            $conexao = Conexao::get();
             try{
                 $select = "select * from usuario where usuario = '$this->usuario' and senha = '$this->senha';";
-                $query = $pdo->query($select);                                 
+                $query = $conexao->query($select);                                 
                 //retorna a quantidade de linhas encontradas
                 return $query->rowCount() > 0;                
             }
