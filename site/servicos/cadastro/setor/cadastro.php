@@ -22,9 +22,9 @@
         print "ativo: $ativo";
         print "<br>";
         $setor = new Setor(
+            null,
             $nome,
-            $ativo ? 1 : 0,
-            null
+            $ativo ? 1 : 0            
         );
         //var_dump($equipamento);
         $linhasAfetadas = $setor->inserir();

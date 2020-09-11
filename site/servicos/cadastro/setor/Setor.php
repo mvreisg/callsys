@@ -2,14 +2,14 @@
     require_once "../../conexao/Conexao.php";
 
     class Setor{
+        private $id;
         private $nome;
-        private $ativo;
-        private $dataHoraCadastro;
+        private $ativo;        
         
-        public function __construct($nome, $ativo, $dataHoraCadastro){
+        public function __construct($id, $nome, $ativo){
+            $this->id = $id;
             $this->nome = $nome;
-            $this->ativo = $ativo;                        
-            $this->dataHoraCadastro = $dataHoraCadastro;
+            $this->ativo = $ativo;                                    
         }
 
         public function inserir(){
