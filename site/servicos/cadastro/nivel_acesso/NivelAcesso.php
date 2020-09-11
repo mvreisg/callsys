@@ -1,25 +1,41 @@
 <?php
-    require_once "../../conexao/Conexao.php";
+require_once "../../conexao/Conexao.php";
 
-    class NivelAcesso{
-        private $id;
-        private $nome;
-        private $ativo;        
-        
-        public function __construct($id, $nome, $ativo){
-            $this->id = $id;
-            $this->nome = $nome;
-            $this->ativo = $ativo;                                    
-        }
+class NivelAcesso
+{
+    private $id;
+    private $nome;
+    private $ativo;
 
-        public function inserir(){
-            $conexao = Conexao::get();        
-            $insert = "insert into nivel_acesso (nome, ativo) values ('{$this->nome}', {$this->ativo});";
-            try{
-                return $conexao->exec($insert);                
+    public function __construct($id, $nome, $ativo)
+    {
+        $this->id = $id;
+        $this->nome = $nome;
+        $this->ativo = $ativo;
+    }
+
+    public function inserir()
+    {
+        $conexao = Conexao::get();
+        try {
+            // TODO: Checar se nível de acesso já existe
+            $conexao->beginTransaction();
+            $sqlInsercao = "insert into nivel_acesso (nome, ativo) values (:nome, :ativo);";
+            $declaracao = $conexao->prepare($sqlInsercao);
+            $deuCerto = $declaracao->execute(
+                array(
+                    ":nome"  => $this->nome,
+                    ":ativo" => $this->ativo
+                )
+            );
+            if ($deuCerto) {
+                $conexao->commit();
+            } else {
+                $conexao->rollBack();
             }
-            catch (PDOEXception $e){
-                print $e;
-            }
+            return $declaracao->rowCount();
+        } catch (PDOEXception $e) {
+            var_dump($e);
         }
     }
+}
