@@ -15,9 +15,22 @@
         <nav>
             <?php require_once "../nav.php"; ?>
         </nav> 
-        <section>
+        <section>            
             <h1>Cadastrar Função</h1>
-            <form name="form_cadastro_funcao" action="" method="post">
+            <?php                 
+                // TODO: invalidar GET após recebimento
+                if (isset($_GET['insert'])){
+                    switch($_GET['insert']){
+                        case "sucesso":
+                            print "<p style='color: green;'>Função cadastrado com sucesso</p>";                                                
+                        break;
+                        case "falha":
+                            print "<p style='color: red;'>Falha ao inserir a função</p>";                                                
+                        break;
+                    }                             
+                }
+            ?>
+            <form name="form_cadastro_funcao" action="../../../servicos/cadastro/funcao/cadastro.php" method="post">
                 <!-- Nome -->
                 <div>
                     <label class="block" for="nome">Nome</label>

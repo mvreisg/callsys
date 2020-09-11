@@ -27,8 +27,7 @@
                         case "falha":
                             print "<p style='color: red;'>Falha ao inserir o setor</p>";                                                
                         break;
-                    }         
-                    $_GET['insert'] = null;
+                    }                             
                 }
             ?>
             <form name="form_cadastro_setor" action="../../../servicos/cadastro/setor/cadastro.php" method="post">
