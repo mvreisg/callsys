@@ -1,0 +1,9 @@
+/* Contém classes gerais para estilização */
+
+.block {
+    display: block;
+}
+
+.inline-block{
+    display: inline-block;
+}

@@ -10,14 +10,14 @@
         <link rel="stylesheet" type="text/css" href="../../../estilos/fontes.css"/>
         <link rel="stylesheet" type="text/css" href="../../../estilos/interno.css"/>        
         <meta charset="utf-8"/>
-        <title>CallSYS - Operações - Solicitação</title>        
+        <title>CallSYS - Cadastrar Solicitação</title>        
     </head>
     <body>              
         <nav>
             <?php require_once "../nav.php"; ?>
         </nav> 
         <section>
-            <h1 style="color: black">Solicitações</h1>
+            <h1>Cadastrar Solicitação</h1>
             <form>
                 <p>Nome</p>
                 <input type="text" name="" >

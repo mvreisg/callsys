@@ -8,7 +8,9 @@
 <html lang="pt-BR" dir="ltr">
     <head>
         <link rel="stylesheet" type="text/css" href="../../../estilos/fontes.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../estilos/geral.css"/>        
         <link rel="stylesheet" type="text/css" href="../../../estilos/interno.css"/>        
+        <link rel="stylesheet" type="text/css" href="../../../estilos/cadastro.css"/>        
         <meta charset="utf-8"/>
         <title>CallSYS - Operações - Usuário</title>        
     </head>
@@ -17,40 +19,75 @@
             <?php require_once "../nav.php"; ?>
         </nav> 
         <section>
-            <h1 style=" color: black">Cadastrar Usuarios</h1>
-            <form>
-                <p>Nome</p>
-                <input type="text" name="" >
-                <p>Usuario</p>
-                <input type="text" name="">
-                <p>Senha</p>
-                <input type="text" name=""><br>
+            <h1>Cadastrar Usuário</h1>
+            <form name="form_cadastro_usuario" action="" method="post">                                
+                <!-- NOME -->
+                <div>
+                    <label class="block" for="usuario">Nome</label>
+                    <input class="block" type="text" name="nome" placeholder="" required />
+                </div>
+                
+                <!-- USUARIO -->
+                <div>
+                    <label class="block" for="usuario">Usuário</label>
+                    <input class="block" type="text" name="usuario" placeholder="" required>
+                </div>
+                
+                <!-- SENHA -->
+                <div>
+                    <label class="block" for="senha">Senha</label>
+                    <input class="block" type="password" name="senha" placeholder="" required>
+                </div>
 
-                <label for="funcao">Função:</label>
-                <select name="funcao" id="funcao">
-                  <option value="enf">Enfermeiro</option>
-                  <option value="adm">Adiministrativo</option>
-                  <option value="medico">Medico</option>
-                </select><br>
+                <!-- TODO: Gerar via PHP -->
+                <!-- FUNÇÃO -->
+                <div>
+                    <label class="block" for="funcao">Função</label>
+                    <select class="block" name="funcao">
+                    <option value="">Enfermeiro</option>
+                    <option value="">Administrativo</option>
+                    <option value="">Médico</option>
+                    </select>
+                </div>
 
-                <label for="setor">Setor:</label>
-                <select name="setor" id="setor">
-                  <option value="amb">ambulatorio</option>
-                  <option value="adm">Adiministrativo</option>
-                  <option value="ti">tecnologia da informação</option>
-                </select><br>
+                <!-- TODO: Gerar via PHP -->
+                <!-- SETOR -->
+                <div>
+                    <label class="block" for="setor">Setor</label>
+                    <select class="block" name="setor">
+                    <option value="">Ambulatório</option>
+                    <option value="">Administrativo</option>
+                    <option value="">Tecnologia da Informação</option>
+                    </select>
+                </div>
 
-                <label for="nvlacess">Nivel de acesso:</label>
-                <select name="funcao" id="funcao">
-                  <option value="user">usuario</option>
-                  <option value="supervisor">Supervisor</option>
-                  <option value="TI">Ti</option>
-                </select><br>
-               
-                <input type="checkbox" name="ativo">
-                <label for="ativo">Ativo</label>
-                <input type="submit" name="" value="Confirmar">
-                <input type="submit" name="" value="Cancelar">
+                <!-- TODO: Gerar via PHP -->
+                <!-- NIVEL ACESSO -->
+                <div>
+                    <label class="block" for="nivel_acesso">Nível de Acesso</label>
+                    <select class="block" name="nivel_acesso">
+                    <option value="">Usuário</option>
+                    <option value="">Supervisor</option>
+                    <option value="">TI</option>
+                    </select>
+                </div>
+                                               
+                <!-- ATIVO -->
+                <div>
+                    <label class="inline-block" for="ativo">Ativo</label>
+                    <input class="inline-block" type="checkbox" name="ativo">
+                </div>
+
+                <div>
+                    <!-- CONFIRMAR -->                
+                    <input class="inline-block" type="submit" name="" value="Confirmar">                
+
+                    <!-- CANCELAR -->
+                    <input class="inline-block" type="button" name="" value="Cancelar">
+
+                    <!-- LIMPAR -->
+                    <input class="inline-block" type="button" name="" value="Limpar">
+                </div>
             </form>
         </section>
         <footer>
