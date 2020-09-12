@@ -35,6 +35,7 @@ class Funcao
             }
             return $declaracao->rowCount();
         } catch (PDOEXception $e) {
+            $conexao->rollBack();
             var_dump($e);
         }
     }

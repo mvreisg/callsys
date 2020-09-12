@@ -51,6 +51,7 @@ class Usuario
             }
             return $declaracao->rowCount();
         } catch (PDOException $e) {
+            $conexao->rollBack();
             var_dump($e);
         }
     }

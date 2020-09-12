@@ -22,7 +22,19 @@ require_once "../../../servicos/login/verificarLogin.php";
     </nav>
     <section>
         <h1>Cadastrar Equipamento</h1>
-        <form name="form_cadastro_equipamento" action="" method="post">
+        <?php
+        if (isset($_GET['insert'])) {
+            switch ($_GET['insert']) {
+                case "sucesso":
+                    print "<p style='color: green'>Equipamento cadastrado com sucesso</p>";
+                    break;
+                case "falha":
+                    print "<p style='color: red'>Falha ao cadastrar o equipamento</p>";
+                    break;
+            }
+        }
+        ?>
+        <form name="form_cadastro_equipamento" action="../../../servicos/cadastro/equipamento/cadastro.php" method="post">
             <!-- Nome -->
             <div>
                 <label class="block" for="nome">Nome</label>
