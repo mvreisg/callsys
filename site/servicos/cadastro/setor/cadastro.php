@@ -2,7 +2,7 @@
 session_start();
 
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";
-require_once "Setor.php";
+require_once "../../model/Setor.php";
 
 if (isset($_POST['confirmar'])) {
     // Objeto Equipamento

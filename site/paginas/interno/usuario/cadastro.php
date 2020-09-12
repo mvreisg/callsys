@@ -23,7 +23,14 @@ require_once "../../../servicos/login/verificarLogin.php";
     <section>
         <h1>Cadastrar Usuário</h1>
         <?php
-
+        switch ($_GET['insert']) {
+            case "sucesso":
+                print "<p style='color: green'>Usuário cadastrado com sucesso</p>";
+                break;
+            case "falha":
+                print "<p style='color: red'>Falha ao cadastrar o usuário</p>";
+                break;
+        }
         ?>
         <form name="form_cadastro_usuario" action="../../../servicos/cadastro/usuario/cadastro.php" method="post">
             <!-- Nome -->

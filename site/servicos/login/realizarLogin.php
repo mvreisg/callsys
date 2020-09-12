@@ -2,7 +2,7 @@
 session_start();
 
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";
-require_once "../../servicos/login/Login.php";
+require_once "Login.php";
 
 $podeLogar = false;
 if (isset($_POST['usuario']) && isset($_POST['senha'])) {
