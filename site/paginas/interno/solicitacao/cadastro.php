@@ -8,10 +8,9 @@ require_once "../../../servicos/login/verificarLogin.php";
 <html lang="pt-BR" dir="ltr">
 
 <head>
-    <link rel="stylesheet" type="text/css" href="../../../estilos/fontes.css" />
+    <link rel="stylesheet" type="text/css" href="../../../estilos/import_fontes.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/geral.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/interno.css" />
-    <link rel="stylesheet" type="text/css" href="../../../estilos/cadastro.css" />
     <meta charset="utf-8" />
     <title>CallSYS - Cadastrar Solicitação</title>
 </head>
@@ -22,52 +21,49 @@ require_once "../../../servicos/login/verificarLogin.php";
     </nav>
     <section>
         <h1>Cadastrar Solicitação</h1>
-        <form name="form_cadastro_solicitacao" action="" method="post">
+        <form name="form_cadastro_solicitacao" action="../../../servicos/operacao/solicitacao/cadastro.php" method="post">
             <!-- Usuario -->
             <div>
-                <label class="block" for="nome_usuario">Usuário</label>
-                <input class="inline-block" type="text" name="id_usuario" placeholder="ID do usuário" disabled />
-                <input class="inline-block" type="text" name="nome_usuario" placeholder="Nome do usuário" required />
-                <input class="inline-block" type="button" name="pesquisar_usuario" value="Pesquisar" />
+                <label class="block" for="usuario">Usuário</label>
+                <select class="block" name="usuario">
+                    <?php require_once "../../../servicos/operacao/usuario/optionsUsuario.php"; ?>
+                </select>
             </div>
 
-            <!-- Setor -->
+            <!-- Setor 
             <div>
                 <label class="block" for="setor">Setor</label>
-                <input type="text" name="setor" disabled />
+                <input type="text" name="setor" placeholder="ID" disabled />
             </div>
+            -->
 
             <!-- Equipamento -->
             <div>
-                <label class="block" for="nome_equipamento">Equipamento</label>
-                <input class="inline-block" type="text" name="id_equipamento" placeholder="ID do equipamento" disabled />
-                <input class="inline-block" type="text" name="nome_equipamento" placeholder="Nome do equipamento" required />
-                <input class="inline-block" type="button" name="pesquisar_equipamento" value="Pesquisar" />
+                <span class="block">Selecionar Equipamento</span>
+                <?php require_once "../../../servicos/operacao/solicitacao/checkboxesEquipamento.php"; ?>
             </div>
-
-            <!-- TODO: Div que mostra todos os equipamentos da solicitação -->
 
             <!-- Descrição do Problema -->
             <div>
-                <label class="block" for="descricao_problema">Se quiser, descreva o problema</label>
-                <textarea name="descricao_problema" rows="20" cols="50">Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet</textarea>
+                <label class="block" for="descricao_problema">Descreva o problema:</label>
+                <textarea name="descricao_problema" rows="20" cols="50" placeholder="Mouse quebrou, clique duplo, etc."></textarea>
             </div>
 
             <!--
                 <p>Estado</p>
                 <input type="text" name="" placeholder="Em andamento"><br>                
-                -->
+            -->
 
             <!-- Ações -->
             <div>
                 <!-- Confirmar -->
-                <input class="inline-block" type="submit" name="confirmar" value="Confirmar">
+                <input class="inline-block" type="submit" name="solicitar" value="Solicitar" />
 
                 <!-- Cancelar -->
-                <input class="inline-block" type="button" name="cancelar" value="Cancelar">
+                <input class="inline-block" type="button" value="Cancelar" />
 
                 <!-- Limpar -->
-                <input class="inline-block" type="button" name="limpar" value="Limpar">
+                <input class="inline-block" type="button" value="Limpar" />
             </div>
         </form>
     </section>

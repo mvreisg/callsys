@@ -1,5 +1,5 @@
 <?php
-require_once "../../conexao/Conexao.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/conexao/Conexao.php";
 
 class Usuario
 {
@@ -28,7 +28,10 @@ class Usuario
     {
         $conexao = Conexao::get();
         try {
-            // TODO: Checar se usuário já existe
+            if ($this->existe()) {
+                return 0;
+            }
+            // TODO: Checar valores das variáveis            
             $sqlInsercao  = "insert into usuario (id_setor, id_funcao, id_nivel_acesso, nome, usuario, senha, ativo) ";
             $sqlInsercao .= "values (:idSetor, :idFuncao, :idNivelAcesso, :nome, :usuario, :senha, :ativo);";
             $conexao->beginTransaction();
@@ -36,7 +39,7 @@ class Usuario
             $deuCerto = $declaracao->execute(
                 array(
                     ":idSetor"       => $this->idSetor,
-                    ":idFuncao"      => $this->idSetor,
+                    ":idFuncao"      => $this->idFuncao,
                     ":idNivelAcesso" => $this->idNivelAcesso,
                     ":nome"          => $this->nome,
                     ":usuario"       => $this->usuario,
@@ -52,6 +55,57 @@ class Usuario
             return $declaracao->rowCount();
         } catch (PDOException $e) {
             $conexao->rollBack();
+            var_dump($e);
+        }
+    }
+
+    public function existe()
+    {
+        $conexao = Conexao::get();
+        try {
+            // TODO: Checar valores das variáveis
+            $sqlSelectTodos = "select * from usuario where usuario = :usuario and senha = :senha";
+            $declaracao = $conexao->prepare($sqlSelectTodos);
+            $declaracao->execute(
+                array(
+                    ":usuario" => $this->usuario,
+                    ":senha"   => $this->senha
+                )
+            );
+            return $declaracao->rowCount() > 0;
+        } catch (PDOException $e) {
+            var_dump($e);
+        }
+    }
+
+    public function ativo()
+    {
+        $conexao = Conexao::get();
+        try {
+            // TODO: Checar valores das variáveis
+            $sqlSelectAtivo = "select * from usuario where usuario = :usuario and senha = :senha and ativo = 1;";
+            $declaracao = $conexao->prepare($sqlSelectAtivo);
+            $declaracao->execute(
+                array(
+                    ":usuario" => $this->usuario,
+                    ":senha"   => $this->senha
+                )
+            );
+            return $declaracao->rowCount() > 0;
+        } catch (PDOException $e) {
+            var_dump($e);
+        }
+    }
+
+    public function consultarTodos()
+    {
+        $conexao = Conexao::get();
+        try {
+            $sqlSelectTodos = "select * from usuario";
+            $declaracao = $conexao->prepare($sqlSelectTodos);
+            $declaracao->execute();
+            return $declaracao->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
             var_dump($e);
         }
     }

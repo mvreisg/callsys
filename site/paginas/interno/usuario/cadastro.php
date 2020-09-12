@@ -8,10 +8,9 @@ require_once "../../../servicos/login/verificarLogin.php";
 <html lang="pt-BR" dir="ltr">
 
 <head>
-    <link rel="stylesheet" type="text/css" href="../../../estilos/fontes.css" />
+    <link rel="stylesheet" type="text/css" href="../../../estilos/import_fontes.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/geral.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/interno.css" />
-    <link rel="stylesheet" type="text/css" href="../../../estilos/cadastro.css" />
     <meta charset="utf-8" />
     <title>CallSYS - Cadastrar Usuário</title>
 </head>
@@ -23,16 +22,18 @@ require_once "../../../servicos/login/verificarLogin.php";
     <section>
         <h1>Cadastrar Usuário</h1>
         <?php
-        switch ($_GET['insert']) {
-            case "sucesso":
-                print "<p style='color: green'>Usuário cadastrado com sucesso</p>";
-                break;
-            case "falha":
-                print "<p style='color: red'>Falha ao cadastrar o usuário</p>";
-                break;
+        if (isset($_GET['insert'])) {
+            switch ($_GET['insert']) {
+                case "sucesso":
+                    print "<p style='color: green'>Usuário cadastrado com sucesso</p>";
+                    break;
+                case "falha":
+                    print "<p style='color: red'>Falha ao cadastrar o usuário</p>";
+                    break;
+            }
         }
         ?>
-        <form name="form_cadastro_usuario" action="../../../servicos/cadastro/usuario/cadastro.php" method="post">
+        <form name="form_cadastro_usuario" method="post">
             <!-- Nome -->
             <div>
                 <label class="block" for="nome">Nome</label>
@@ -53,32 +54,26 @@ require_once "../../../servicos/login/verificarLogin.php";
 
             <!-- Setor -->
             <div>
-                <label class="block" for="nome_setor">Setor</label>
-                <!-- required temporário -->
-                <input class="inline-block" type="text" name="id_setor" placeholder="ID" required />
-                <!-- disable temporário -->
-                <input class="inline-block" type="text" name="nome_setor" placeholder="Nome" disabled />
-                <input class="inline-block" type="button" name="pesquisar_setor" value="Pesquisar" />
+                <label class="block" for="setor">Setor</label>
+                <select class="block" name="setor">
+                    <?php require_once "../../../servicos/operacao/setor/optionsSetor.php"; ?>
+                </select>
             </div>
 
             <!-- Função -->
             <div>
-                <label class="block" for="nome_funcao">Função</label>
-                <!-- required temporário -->
-                <input class="inline-block" type="text" name="id_funcao" placeholder="ID" required />
-                <!-- disable temporário -->
-                <input class="inline-block" type="text" name="nome_funcao" placeholder="Nome" disabled />
-                <input class="inline-block" type="button" name="pesquisar_funcao" value="Pesquisar" />
+                <label class="block" for="funcao">Função</label>
+                <select class="block" name="funcao">
+                    <?php require_once "../../../servicos/operacao/funcao/optionsFuncao.php"; ?>
+                </select>
             </div>
 
             <!-- Nível de Acesso -->
             <div>
-                <label class="block" for="nome_nivel_acesso">Nível de Acesso</label>
-                <!-- required temporário -->
-                <input class="inline-block" type="text" name="id_nivel_acesso" placeholder="ID" required />
-                <!-- disable temporário -->
-                <input class="inline-block" type="text" name="nome_nivel_acesso" placeholder="Nome" disabled />
-                <input class="inline-block" type="button" name="pesquisar_nivel_acesso" value="Pesquisar" />
+                <label class="block" for="nivel_acesso">Nível de Acesso</label>
+                <select class="block" name="nivel_acesso">
+                    <?php require_once "../../../servicos/operacao/nivel_acesso/optionsNivelAcesso.php"; ?>
+                </select>
             </div>
 
             <!-- Ativo -->
@@ -90,13 +85,13 @@ require_once "../../../servicos/login/verificarLogin.php";
             <!-- Ações -->
             <div>
                 <!-- Confirmar -->
-                <input class="inline-block" type="submit" name="confirmar" value="Confirmar">
+                <input class="inline-block" type="submit" name="confirmar" value="Confirmar" formaction="../../../servicos/operacao/usuario/cadastro.php" />
 
                 <!-- Cancelar -->
-                <input class="inline-block" type="button" name="cancelar" value="Cancelar">
+                <input class="inline-block" type="button" name="cancelar" value="Cancelar" />
 
                 <!-- Limpar -->
-                <input class="inline-block" type="button" name="limpar" value="Limpar">
+                <input class="inline-block" type="button" name="limpar" value="Limpar" />
             </div>
         </form>
     </section>

@@ -1,5 +1,5 @@
 <?php
-require_once "../../conexao/Conexao.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/conexao/Conexao.php";
 
 class Setor
 {
@@ -36,6 +36,19 @@ class Setor
             return $declaracao->rowCount();
         } catch (PDOEXception $e) {
             $conexao->rollBack();
+            var_dump($e);
+        }
+    }
+
+    public function consultarTodos()
+    {
+        $conexao = Conexao::get();
+        try {
+            $sqlSelectTodos = "select * from setor";
+            $declaracao = $conexao->prepare($sqlSelectTodos);
+            $declaracao->execute();
+            return $declaracao->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
             var_dump($e);
         }
     }

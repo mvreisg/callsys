@@ -1,8 +1,4 @@
-/* Estilo geral das páginas internas */
-* {
-    margin: 0px;
-    padding: 0px;
-}
+/* Pattern de estilo das pages internas */
 
 body {    
     background-size: cover;

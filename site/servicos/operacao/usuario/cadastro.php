@@ -5,9 +5,6 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.
 require_once "../../model/Usuario.php";
 
 if (isset($_POST['confirmar'])) {
-    // Objeto Equipamento
-    $usuario = null;
-
     // Parâmetros do POST
     $idSetor = 0;
     $idFuncao = 0;
@@ -16,14 +13,14 @@ if (isset($_POST['confirmar'])) {
     $usuario = "";
     $senha = "";
     $ativo = false;
-    if (isset($_POST['id_setor'])) {
-        $idSetor = (int)$_POST['id_setor'];
+    if (isset($_POST['setor'])) {
+        $idSetor = (int)$_POST['setor'];
     }
-    if (isset($_POST['id_funcao'])) {
-        $idFuncao = (int)$_POST['id_funcao'];
+    if (isset($_POST['funcao'])) {
+        $idFuncao = (int)$_POST['funcao'];
     }
-    if (isset($_POST['id_nivel_acesso'])) {
-        $idNivelAcesso = (int)$_POST['id_nivel_acesso'];
+    if (isset($_POST['nivel_acesso'])) {
+        $idNivelAcesso = (int)$_POST['nivel_acesso'];
     }
     if (isset($_POST['nome'])) {
         $nome = $_POST['nome'];

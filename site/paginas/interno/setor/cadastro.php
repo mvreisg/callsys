@@ -8,10 +8,9 @@ require_once "../../../servicos/login/verificarLogin.php";
 <html lang="pt-BR" dir="ltr">
 
 <head>
-    <link rel="stylesheet" type="text/css" href="../../../estilos/fontes.css" />
+    <link rel="stylesheet" type="text/css" href="../../../estilos/import_fontes.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/geral.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/interno.css" />
-    <link rel="stylesheet" type="text/css" href="../../../estilos/cadastro.css" />
     <meta charset="utf-8" />
     <title>CallSYS - Cadastrar Setor</title>
 </head>
@@ -32,7 +31,7 @@ require_once "../../../servicos/login/verificarLogin.php";
             }
         }
         ?>
-        <form name="form_cadastro_setor" action="../../../servicos/cadastro/setor/cadastro.php" method="post">
+        <form name="form_cadastro_setor" method="post">
             <!-- Nome -->
             <div>
                 <label class="block" for="nome">Nome</label>
@@ -42,13 +41,13 @@ require_once "../../../servicos/login/verificarLogin.php";
             <!-- Ativo -->
             <div>
                 <label for="ativo">Ativo</label>
-                <input type="checkbox" name="ativo">
+                <input type="checkbox" name="ativo" />
             </div>
 
             <!-- Ações -->
             <div>
                 <!-- Confirmar -->
-                <input class="inline-block" type="submit" name="confirmar" value="Confirmar">
+                <input class="inline-block" type="submit" name="confirmar" value="Confirmar" formaction="../../../servicos/operacao/setor/cadastro.php" />
 
                 <!-- Cancelar -->
                 <input class="inline-block" type="button" name="cancelar" value="Cancelar">

@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once "../../request/Request.php";
 require_once "../../model/Equipamento.php";
 

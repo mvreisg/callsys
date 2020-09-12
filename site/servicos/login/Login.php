@@ -1,5 +1,5 @@
 <?php
-require_once "../../servicos/conexao/Conexao.php";
+require_once "../model/Usuario.php";
 
 class Login
 {
@@ -14,13 +14,13 @@ class Login
 
     public function login()
     {
-        $conexao = Conexao::get();
         try {
-            // TODO: Checar se o usuário está ativo
-            $sqlSelect = "select * from usuario where usuario = '$this->usuario' and senha = '$this->senha';";
-            $query = $conexao->query($sqlSelect);
-            //retorna a quantidade de linhas encontradas
-            return $query->rowCount();
+            // TODO: Checar se o usuário está ativo            
+            $usuario = new Usuario(null, null, null, null, null, $this->usuario, $this->senha, null);
+            $resultado = array();
+            $resultado['existe'] = $usuario->existe();
+            $resultado['ativo'] = $usuario->ativo();
+            return $resultado;
         } catch (PDOException $e) {
             var_dump($e);
         }

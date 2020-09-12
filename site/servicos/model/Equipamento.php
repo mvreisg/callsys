@@ -1,5 +1,5 @@
 <?php
-require_once "../../../servicos/conexao/Conexao.php";
+require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/conexao/Conexao.php";
 
 class Equipamento
 {
@@ -38,6 +38,53 @@ class Equipamento
             return $declaracao->rowCount();
         } catch (PDOException $e) {
             $conexao->rollBack();
+            var_dump($e);
+        }
+    }
+
+    public function existe()
+    {
+        $conexao = Conexao::get();
+        try {
+            $sqlSelect = "select * from equipamento where id = :id";
+            $declaracao = $conexao->prepare($sqlSelect);
+            $declaracao->execute(
+                array(
+                    ":id" => $this->id
+                )
+            );
+            return $declaracao->rowCount() > 0;
+        } catch (PDOException $e) {
+            var_dump($e);
+        }
+    }
+
+    public function consultar()
+    {
+        $conexao = Conexao::get();
+        try {
+            $sqlSelect = "select * from equipamento where id = :id";
+            $declaracao = $conexao->prepare($sqlSelect);
+            $declaracao->execute(
+                array(
+                    ":id" => $this->id
+                )
+            );
+            return $declaracao->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            var_dump($e);
+        }
+    }
+
+    public function consultarTodos()
+    {
+        $conexao = Conexao::get();
+        try {
+            $sqlSelectTodos = "select * from equipamento";
+            $declaracao = $conexao->prepare($sqlSelectTodos);
+            $declaracao->execute();
+            return $declaracao->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
             var_dump($e);
         }
     }
