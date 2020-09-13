@@ -4,5 +4,5 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/model/Usuario.ph
 $usuarios = (new Usuario(null, null, null, null, null, null, null, null))->consultarTodos();
 
 foreach ($usuarios as $usuario) {
-    print "<option value='{$usuario['id']}'>ID: {$usuario['id']} - Nome: {$usuario['nome']}</option>";
+    print "<option value='{$usuario['id']}'>{$usuario['nome']}</option>";
 }

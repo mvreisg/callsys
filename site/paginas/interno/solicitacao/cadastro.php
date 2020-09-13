@@ -21,11 +21,33 @@ require_once "../../../servicos/login/verificarLogin.php";
     </nav>
     <section>
         <h1>Cadastrar Solicitação</h1>
+        <?php
+        if (isset($_GET['insert'])) {
+            switch ($_GET['insert']) {
+                case 0:
+                    print "<p style='color: red;'>Erro ao cadastrar a solicitação</p>";
+                    break;
+                case 1:
+                    print "<p style='color: green;'>Solicitação feita com sucesso!</p>";
+                    break;
+            }
+        }
+        if (isset($_GET['usuario'])) {
+            if ($_GET['usuario'] == 0) {
+                print "<p style='color: red;'>Usuário inválido</p>";
+            }
+        }
+        if (isset($_GET['descricao_problema'])) {
+            if ($_GET['descricao_problema'] == 0) {
+                print "<p style='color: red;'>Por favor, descreva o problema</p>";
+            }
+        }
+        ?>
         <form name="form_cadastro_solicitacao" action="../../../servicos/operacao/solicitacao/cadastro.php" method="post">
             <!-- Usuario -->
             <div>
-                <label class="block" for="usuario">Usuário</label>
-                <select class="block" name="usuario">
+                <label class="block" for="id_usuario">Usuário</label>
+                <select class="block" name="id_usuario">
                     <?php require_once "../../../servicos/operacao/usuario/optionsUsuario.php"; ?>
                 </select>
             </div>
@@ -57,7 +79,7 @@ require_once "../../../servicos/login/verificarLogin.php";
             <!-- Ações -->
             <div>
                 <!-- Confirmar -->
-                <input class="inline-block" type="submit" name="solicitar" value="Solicitar" />
+                <input class="inline-block" type="submit" name="submit" value="Solicitar" />
 
                 <!-- Cancelar -->
                 <input class="inline-block" type="button" value="Cancelar" />

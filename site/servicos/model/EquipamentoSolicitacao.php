@@ -22,15 +22,14 @@ class EquipamentoSolicitacao
             $sqlInsercao  = "insert into equipamento_solicitacao (id_solicitacao, id_equipamento) ";
             $sqlInsercao .= "values (:idSolicitacao, :idEquipamento);";
             $declaracao = $conexao->prepare($sqlInsercao);
-            $deuCerto = $declaracao->execute(
+            $declaracao->execute(
                 array(
                     ":idSolicitacao" => $this->idSolicitacao,
                     ":idEquipamento" => $this->idEquipamento
                 )
             );
-            return $deuCerto;
+            return $declaracao->rowCount();
         } catch (PDOException $e) {
-
             var_dump($e);
         }
     }
