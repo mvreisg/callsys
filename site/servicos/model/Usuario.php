@@ -77,7 +77,7 @@ class Usuario
         }
     }
 
-    public function autenticar()
+    public function verificarPermissaoParaLogar()
     {
         $conexao = Conexao::get();
         try {

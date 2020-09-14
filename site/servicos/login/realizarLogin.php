@@ -2,23 +2,65 @@
 session_start();
 
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";
-require_once "Login.php";
+require_once "../model/Usuario.php";
 
-$podeLogar = false;
-if (isset($_POST['usuario']) && isset($_POST['senha'])) {
-    $login = new Login($_POST['usuario'], $_POST['senha']);
-    $resultado = $login->login();
+// URL para retornar a página de login
+$urlIndex = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/index.php?";
+
+// URL para ir para a página inicial do sistema
+$urlInicio = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/inicio.php";
+
+// URL para redirecionamento
+$urlRedirecionamento = $urlIndex;
+
+// Checa se o usuario e a senha foram passados
+$dadosPassados = true;
+if (!isset($_POST['usuario'])) {
+    // Se o usuário não foi passada, retornar a página de login e informar ao usuário
+    $urlRedirecionamento .= "usuario=vazio&";
+    $dadosPassados = false;
 }
 
-$url = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}";
-if ($resultado['existe'] && $resultado['ativo']) {
-    $_SESSION['login'] = true;
-    $url .= "/estagio/site/paginas/interno/inicio.php";
-} else {
-    $url .= "/estagio/site/index.php?existe={$resultado['existe']}&ativo={$resultado['ativo']}";
+if (!isset($_POST['senha'])) {
+    // Se a senha não foi passada, retornar a página de login e informar ao usuário
+    $urlRedirecionamento .= "senha=vazio&";
+    $dadosPassados = false;
+}
+
+if ($dadosPassados) {
+    // Se os dados foram passados corretamente
+    $usuario = $_POST['usuario'];
+    $senha = $_POST['senha'];
+
+    // Verifica se tem permissão para logar, capturando o resultado
+    // (se usuario existe e se está ativo)
+    $resultado = (new Usuario(null, null, null, null, null, $usuario, $senha, null))->verificarPermissaoParaLogar();
+
+    // Filtrando dados do resultado
+    $existe = $resultado['existe'];
+    $ativo = $resultado['ativo'];
+
+    // Checa se o usuário existe
+    if ($existe) {
+        // Se o usuário existe
+        if ($ativo) {
+            // Se o usuário está ativo
+            $_SESSION['login'] = true;
+            // Seta a URL de redirecionamento para a página de início
+            $urlRedirecionamento = $urlInicio;
+        } else {
+            // Se o usuário não está ativo, retorna que existe mas não está ativo
+            $urlRedirecionamento .= "existe=$existe&ativo=$ativo";
+        }
+    } else {
+        // Se o usuário não existe, retorna que ele não existe
+        $urlRedirecionamento .= "existe=$existe&";
+    }
 }
 ?>
+
+<!-- JavaScript -->
 <script type="text/javascript">
-    //alert('<?php print $url; ?>');
-    location.href = '<?php print $url; ?>';
+    // Redireciona via JavaScript para a URL que está guardada na variável PHP de URL de redirecionamento
+    location.href = '<?php print $urlRedirecionamento; ?>';
 </script>
