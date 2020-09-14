@@ -42,24 +42,7 @@ class Equipamento
         }
     }
 
-    public function existe()
-    {
-        $conexao = Conexao::get();
-        try {
-            $sqlSelect = "select * from equipamento where id = :id";
-            $declaracao = $conexao->prepare($sqlSelect);
-            $declaracao->execute(
-                array(
-                    ":id" => $this->id
-                )
-            );
-            return $declaracao->rowCount() > 0;
-        } catch (PDOException $e) {
-            var_dump($e);
-        }
-    }
-
-    public function consultarId()
+    public function consultarPorId()
     {
         $conexao = Conexao::get();
         try {

@@ -8,12 +8,19 @@ class Conexao
     private const USUARIO = "root";
     private const SENHA = "";
 
+    private static $pdo;
+
     public static function get()
     {
         try {
-            return new PDO(self::DSN, self::USUARIO, self::SENHA);
+            var_dump(self::$pdo);
+            if (isset(self::$pdo)) {
+                return self::$pdo;
+            }
+            self::$pdo = new PDO(self::DSN, self::USUARIO, self::SENHA);
+            return self::$pdo;
         } catch (PDOException $e) {
-            var_dump($e);
+            return null;
         }
     }
 }
