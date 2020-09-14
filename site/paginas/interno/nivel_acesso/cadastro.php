@@ -26,7 +26,7 @@ require_once "../../../servicos/login/verificarLogin.php";
         if (isset($_GET['insert'])) {
             switch ($_GET['insert']) {
                 case "sucesso":
-                    print "<p style='color: green;'>Função cadastrado com sucesso</p>";
+                    print "<p style='color: green;'>Nível de Acesso cadastrado com sucesso</p>";
                     break;
             }
         }

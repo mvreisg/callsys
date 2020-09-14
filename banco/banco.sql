@@ -1,5 +1,6 @@
-/* BANCO: MariaDB */
+/* BANCO: MySQL MariaDB */
 /*CREATES*/
+drop database if exists callsys;
 create database callsys;
 use callsys;
 create table setor (

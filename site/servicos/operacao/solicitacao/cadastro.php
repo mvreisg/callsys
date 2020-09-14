@@ -5,26 +5,21 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.
 require_once "../../model/Solicitacao.php";
 require_once "../../model/Equipamento.php";
 
-print "inicio<br>";
+$url = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/solicitacao/cadastro.php?";
+
 var_dump($_POST);
 print "<br>";
 
-$url = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/solicitacao/cadastro.php?";
-
 if (isset($_POST['submit'])) {
     // Tratamento de erros
-    print "submitou<br>";
     if (!isset($_POST['id_usuario'])) {
-        print "id_usuario não informado<br>";
         $url .= "id_usuario=0&";
     }
     if (!isset($_POST['descricao_problema'])) {
-        print "descricao problema não informado<br>";
         $url .= "descricao_problema=0&";
     }
 
     // Dados do POST    
-    print "coletando POST<br>";
     $idUsuario = $_POST['id_usuario'];
     $descricaoProblema = $_POST['descricao_problema'];
     $idsEquipamentos = array();
@@ -43,23 +38,15 @@ if (isset($_POST['submit'])) {
             $idsEquipamentos[] = $valor;
         }
     }
-    var_dump($idsEquipamentos);
-    print "<br>";
 
     // Gerando o objeto Solicitação
-    print "gerando solicitacao<br>";
     $solicitacao = new Solicitacao(null, $idUsuario, 1, $descricaoProblema, null);
 
-    // Inserção da solicitação
-    print "inserindo solicitacao<br>";
-    $linhasAfetadas = $solicitacao->inserir($idsEquipamentos);
-    if ($linhasAfetadas == 0) {
-        print "deu errado a inserção<br>";
-        $url .= "insert=0&";
-    } else {
-        print "deu certo a inserção<br>";
-        $url .= "insert=1&";
-    }
+    // Inserção da solicitação    
+    $resultado = $solicitacao->inserir($idsEquipamentos);
+    var_dump($resultado);
+
+    $url .= "insert=" . array_keys($resultado)[0] . "&";
 }
 ?>
 <script type="text/javascript">

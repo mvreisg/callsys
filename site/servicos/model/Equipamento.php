@@ -53,9 +53,19 @@ class Equipamento
                     ":id" => $this->id
                 )
             );
-            return $declaracao->fetch(PDO::FETCH_ASSOC);
+            $busca = $declaracao->fetch(PDO::FETCH_ASSOC);
+            if (!$busca) {
+                return null;
+            }
+            return new Equipamento(
+                $this->id,
+                $busca['nome'],
+                $busca['ativo'],
+                $busca['data_hora_cadastro']
+            );
         } catch (PDOException $e) {
             var_dump($e);
+            return null;
         }
     }
 

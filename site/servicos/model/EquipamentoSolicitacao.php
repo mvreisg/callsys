@@ -18,19 +18,31 @@ class EquipamentoSolicitacao
     {
         $conexao = Conexao::get();
         try {
-            // Não se inicia transaction porque é inserido na transaction da Solicitação
-            $sqlInsercao  = "insert into equipamento_solicitacao (id_solicitacao, id_equipamento) ";
-            $sqlInsercao .= "values (:idSolicitacao, :idEquipamento);";
-            $declaracao = $conexao->prepare($sqlInsercao);
-            $declaracao->execute(
+            // Não se inicia transaction porque é inserido na transaction da Solicitação            
+
+            // Checagem dos valores
+            if (!isset($this->idSolicitacao)) {
+                return array("erro" => "idSolicitacao não informado");
+            }
+            if (!isset($this->idEquipamento)) {
+                return array("erro" => "idEquipamento não informado");
+            }
+
+            $sql  = "insert into equipamento_solicitacao (id_solicitacao, id_equipamento) ";
+            $sql .= "values (:idSolicitacao, :idEquipamento);";
+            $declaracao = $conexao->prepare($sql);
+            $ok = $declaracao->execute(
                 array(
                     ":idSolicitacao" => $this->idSolicitacao,
                     ":idEquipamento" => $this->idEquipamento
                 )
             );
-            return $declaracao->rowCount();
+            if (!$ok) {
+                return array("erro" => "EquipamentoSolicitacao não inserido");
+            }
+            return array("sucesso" => $ok);
         } catch (PDOException $e) {
-            var_dump($e);
+            return array("erro" => $e);
         }
     }
 }

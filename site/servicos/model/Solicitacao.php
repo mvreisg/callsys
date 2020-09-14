@@ -2,6 +2,7 @@
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/conexao/Conexao.php";
 require_once "Usuario.php";
 require_once "Equipamento.php";
+require_once "EquipamentoSolicitacao.php";
 
 class Solicitacao
 {
@@ -19,7 +20,6 @@ class Solicitacao
         $this->estado = $estado;
         $this->descricaoProblema = $descricaoProblema;
         $this->dataHoraSolicitacao = $dataHoraSolicitacao;
-        $this->equipamentos = array();
     }
 
     public function inserir($idsEquipamentos)
@@ -28,46 +28,55 @@ class Solicitacao
         try {
             // Verificando consistência dos dados
             if (!isset($this->idUsuario)) {
-                return 0;
+                return array("erro" => "idUsuario não informado");
             }
             if (!isset($this->estado)) {
-                return 0;
+                return array("erro" => "estado não informado");
             }
             if (!isset($this->descricaoProblema)) {
-                return 0;
+                return array("erro" => "descricaoProblema não informado");
             }
 
-            // Verifica se o usuário existe
-            $existeUsuario = (new Usuario($this->idUsuario, null, null, null, null, null, null, null))->existe();
-            if (!$existeUsuario) {
-                return 0;
+            // Verifica se o usuário existe            
+            if (!(new Usuario($this->idUsuario, null, null, null, null, null, null, null))->existe()) {
+                return array("erro" => "Usuário não existe");
             }
+
+            // \/ \/ \/ Verifica se os equipamentos existem \/ \/ \/
 
             // Criação do array de objetos Equipamento associados a Solicitacao
             $equipamentos = array();
 
+            // Percorre o array de IDs de Equipamentos expondo cada ID
             foreach ($idsEquipamentos as $idEquipamento) {
-                // Gera os objetos Equipamento relacionados
-                $equipamento = new Equipamento($idEquipamento, null, null, null);
+                // Gera o objeto Equipamento com base no ID
+                $equipamentoBase = new Equipamento($idEquipamento, null, null, null);
+                $equipamentoCompleto = $equipamentoBase->consultarPorId();
 
-                // Verifica se o equipamento existe
-                if ($equipamento->existe()) {
-                    $equipamentos[] = $equipamento->consultar();
-                } else {
-                    return 0;
+                // Verifica se o equipamento não existe
+                if (!isset($equipamentoCompleto)) {
+                    // Se não existe, cancelar e retornar erro
+                    return array("erro" => "Não existe Equipamento com o ID $idEquipamento");
                 }
+                // Senão, popula o array de equipamentos
+                $equipamentos[] = $equipamentoCompleto;
             }
+
+            // /\ /\ /\ Verifica se os equipamentos existem /\ /\ /\
+
+            // \/ \/ \/ Transação: Inserção Solicitacao e os EquipamentoSolicitacao associados \/ \/ \/
 
             // Inicia a transação que só irá terminar com a inserção de todos os objetos EquipamentoSolicitacao
             $conexao->beginTransaction();
 
             // SQL de inserção na tabela Solicitacao
-            $sqlInsercaoSolicitacao  = "insert into solicitacao (id_usuario, estado, descricao_problema, data_hora_solicitacao) ";
-            $sqlInsercaoSolicitacao .= "values (:idUsuario, :estado, :descricaoProblema, now());";
+            $sqlSolicitacao  = "insert into solicitacao (id_usuario, estado, descricao_problema, data_hora_solicitacao) ";
+            $sqlSolicitacao .= "values (:idUsuario, :estado, :descricaoProblema, now());";
 
             // Inserção na tabela Solicitação
-            $declaracaoSolicitacao = $conexao->prepare($sqlInsercaoSolicitacao);
-            $insercaoSolicitacaoOK = $declaracaoSolicitacao->execute(
+            $declaracaoSolicitacao = $conexao->prepare($sqlSolicitacao);
+            // Insere a Solicitacao no banco
+            $solicitacaoOK = $declaracaoSolicitacao->execute(
                 array(
                     ":idUsuario"           => $this->idUsuario,
                     ":estado"              => $this->estado,
@@ -75,46 +84,47 @@ class Solicitacao
                 )
             );
 
-            // Se a inserção de Solicitacao deu errado, rollback e cancelar
-            if (!$insercaoSolicitacaoOK) {
+            // Checa se a solicitação não foi incluida com sucesso            
+            if (!$solicitacaoOK) {
+                // Se não foi incluída com sucesso, dar rollback e retornar o erro
                 $conexao->rollBack();
-                return 0;
+                return array("erro" => "Erro ao inserir a solicitação");
             }
 
-            // Continue a transação \/ \/ \/
+            // Pega o ultimo ID inserido (ID da Solicitacao)                        
+            $idSolicitacao = -1;
+            $declaracaoUltimoID = $conexao->prepare("select LAST_INSERT_ID();");
+            if (!$declaracaoUltimoID->execute()) {
+                $conexao->rollBack();
+                return array("erro" => "Erro ao consultar o último ID inserido na tabela Solicitação");
+            }
+            $idSolicitacao = $declaracaoUltimoID->fetch(PDO::FETCH_ASSOC)['LAST_INSERT_ID()'];
 
-            // Inserção dos objetos EquipamentoSolicitacao            
-            $linhasAfetadasEquipamentoSolicitacao = 0;
-            foreach ($equipamentos as $equipamento) {
-                $equipamentoSolicitacao = new EquipamentoSolicitacao(null, $this->id, $equipamento->getId());
-                // Insere o objeto EquipamentoSolicitacao na tela correspondente
-                $linhasAfetadas = $equipamentoSolicitacao->inserir();
-                // Se deu algum erro na inserção
-                if ($linhasAfetadas == 0) {
-                    // Rollback e return
+            // Inserção dos objetos EquipamentoSolicitacao                        
+            foreach ($idsEquipamentos as $idEquipamento) {
+                $equipamentoSolicitacao = new EquipamentoSolicitacao(null, $idSolicitacao, $idEquipamento);
+
+                // Insere o objeto EquipamentoSolicitacao na tabela correspondente
+                $resultado = $equipamentoSolicitacao->inserir();
+
+                // Verifica se o resultado retornou um array com a chave 'erro'
+                if (isset($resultado['erro'])) {
+                    // Se sim, rollback e retorna a mensagem de erro
                     $conexao->rollBack();
-                    return 0;
-                } else {
-                    $linhasAfetadasEquipamentoSolicitacao += $linhasAfetadas;
+                    return $resultado;
                 }
             }
 
             // Commita a transação
             $conexao->commit();
 
-            return $declaracaoSolicitacao->rowCount() + $linhasAfetadasEquipamentoSolicitacao;
+            // /\ /\ /\ Transação: Inserção Solicitacao e os EquipamentoSolicitacao associados /\ /\ /\
+
+            // Retorna a mensagem de sucesso
+            return array("sucesso" => "Solicitação inserida com sucesso");
         } catch (PDOException $e) {
             $conexao->rollBack();
-            var_dump($e);
-        }
-    }
-
-    public function existe()
-    {
-        $conexao = Conexao::get();
-        try {
-        } catch (PDOException $e) {
-            var_dump($e);
+            return array("erro" => $e);
         }
     }
 }

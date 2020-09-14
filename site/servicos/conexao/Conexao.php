@@ -13,7 +13,6 @@ class Conexao
     public static function get()
     {
         try {
-            var_dump(self::$pdo);
             if (isset(self::$pdo)) {
                 return self::$pdo;
             }
