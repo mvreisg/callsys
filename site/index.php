@@ -1,12 +1,13 @@
 <?php
 session_start();
 
-// Checa se há registro de login
+// Checa se há a chave de login na sessão
 if (isset($_SESSION['login'])) {
-    // Checa se está logado
+    // Se a chave de sessão existe
     if ($_SESSION['login']) {
-        // Se sim
-        // Zera toda a sessão
+        // Se existe e está logado,
+
+        // Zera todas as variáveis da sessão
         session_unset();
 
         // Destrói a sessão
@@ -16,9 +17,12 @@ if (isset($_SESSION['login'])) {
         session_start();
     }
 }
-// Diz que não está logado para a sessão 
+// Atribui valor falso para a chave de login da nova sessão ou da existente,
+// pois se o Usuário caiu na tela de login ele NÃO está logado
 $_SESSION['login'] = false;
 ?>
+
+<!-- HTML -->
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
 
@@ -34,7 +38,7 @@ $_SESSION['login'] = false;
             font-family: 'Comfortaa', sans-serif;
         }
 
-        #login {
+        div {
             width: 320px;
             height: auto;
             border: 2px solid #000;
@@ -49,7 +53,7 @@ $_SESSION['login'] = false;
             padding: 68px 28px;
         }
 
-        #login h1 {
+        div h1 {
             padding-bottom: 20px;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -58,18 +62,18 @@ $_SESSION['login'] = false;
             color: #80ffff;
         }
 
-        #login p {
+        div p {
             margin: 0;
             padding: 0;
             font-weight: bold;
         }
 
-        #login input {
+        div input {
             width: 100%;
             margin-bottom: 21px;
         }
 
-        #login input[type="text"],
+        div input[type="text"],
         input[type="password"] {
             border: none;
             border-bottom: 1px solid white;
@@ -80,7 +84,7 @@ $_SESSION['login'] = false;
             font-size: 16px;
         }
 
-        #login input[type="submit"] {
+        div input[type="submit"] {
             border: none;
             outline: none;
             height: 35px;
@@ -90,13 +94,13 @@ $_SESSION['login'] = false;
             transition: 0.2s;
         }
 
-        #login input[type="submit"]:hover {
+        div input[type="submit"]:hover {
             cursor: pointer;
             background: #80ffff;
             transition: 0.2s;
         }
 
-        #login a {
+        div a {
             font-weight: bold;
             text-decoration: none;
             font-size: 12px;
@@ -105,7 +109,7 @@ $_SESSION['login'] = false;
             transition: 0.2s;
         }
 
-        #login a:hover {
+        div a:hover {
             transition: 0.2s;
             color: #ff4da6;
         }
@@ -113,18 +117,23 @@ $_SESSION['login'] = false;
 </head>
 
 <body>
-    <div id="login">
+    <div>
         <h1>CallSYS</h1>
         <?php
-        // Recebe o GET para ver se o login for invalidado                
+        // Checa se o Usuario existe via GET
         if (isset($_GET['existe'])) {
+            // Checa se o usuário existe
             if ($_GET['existe']) {
+                // Se o usuário existe, checa se está ativo
                 if (isset($_GET['ativo'])) {
-                    if ($_GET['ativo'] == 0) {
+                    // Checa se está ativo
+                    if (!$_GET['ativo']) {
+                        // Se não está ativo, informar se está ativo
                         print "<p style='color: red; margin: 4px 0px;'>Usuário inativo!</p>";
                     }
                 }
             } else {
+                // Senão, informar que o usuário não existe
                 print "<p style='color: red; margin: 4px 0px;'>Usuário não cadastrado!</p>";
             }
         }
@@ -139,7 +148,7 @@ $_SESSION['login'] = false;
             <input type="password" name="senha" maxlength="10" placeholder="Insira sua senha" required />
 
             <!-- Ações -->
-            <input type="submit" name="logar" value="Login" />
+            <input type="submit" name="submitLogin" value="Login" />
 
             <!-- TODO: Implementar? -->
             <a href="#">Esqueceu sua senha?</a>
