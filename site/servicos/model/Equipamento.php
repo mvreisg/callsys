@@ -16,11 +16,6 @@ class Equipamento
         $this->dataHoraCadastro = $dataHoraCadastro;
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public function inserir()
     {
         // TODO: Checar se equipamento já existe
@@ -64,7 +59,7 @@ class Equipamento
         }
     }
 
-    public function consultar()
+    public function consultarId()
     {
         $conexao = Conexao::get();
         try {

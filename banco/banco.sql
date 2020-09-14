@@ -99,9 +99,9 @@ values (
     1,
     1,
     1,
-    'admin',
-    'admin@',
-    'admin',
+    'a',
+    'a',
+    'a',
     1    
 );
 

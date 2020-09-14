@@ -64,12 +64,11 @@ class Usuario
         $conexao = Conexao::get();
         try {
             // TODO: Checar valores das variáveis
-            $sqlSelectTodos = "select * from usuario where usuario = :usuario and senha = :senha";
+            $sqlSelectTodos = "select * from usuario where id = :id";
             $declaracao = $conexao->prepare($sqlSelectTodos);
             $declaracao->execute(
                 array(
-                    ":usuario" => $this->usuario,
-                    ":senha"   => $this->senha
+                    ":id" => $this->id
                 )
             );
             return $declaracao->rowCount() > 0;
@@ -78,22 +77,38 @@ class Usuario
         }
     }
 
-    public function ativo()
+    public function autenticar()
     {
         $conexao = Conexao::get();
         try {
             // TODO: Checar valores das variáveis
-            $sqlSelectAtivo = "select * from usuario where usuario = :usuario and senha = :senha and ativo = 1;";
-            $declaracao = $conexao->prepare($sqlSelectAtivo);
+            // TODO: Checar valores das variáveis
+            $sqlExiste = "select * from usuario where usuario = :usuario and senha = :senha;";
+            $declaracao = $conexao->prepare($sqlExiste);
             $declaracao->execute(
                 array(
                     ":usuario" => $this->usuario,
                     ":senha"   => $this->senha
                 )
             );
-            return $declaracao->rowCount() > 0;
+            $existe = $declaracao->rowCount() > 0;
+
+            $sqlAtivo = "select * from usuario where usuario = :usuario and senha = :senha and ativo = 1;";
+            $declaracao = $conexao->prepare($sqlAtivo);
+            $declaracao->execute(
+                array(
+                    ":usuario" => $this->usuario,
+                    ":senha"   => $this->senha
+                )
+            );
+            $ativo = $declaracao->rowCount() > 0;
+
+            return array(
+                "existe" => $existe,
+                "ativo"  => $ativo
+            );
         } catch (PDOException $e) {
-            var_dump($e);
+            return array("erro" => $e);
         }
     }
 

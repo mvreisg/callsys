@@ -24,10 +24,10 @@ require_once "../../../servicos/login/verificarLogin.php";
         <?php
         if (isset($_GET['insert'])) {
             switch ($_GET['insert']) {
-                case 0:
+                case "erro":
                     print "<p style='color: red;'>Erro ao cadastrar a solicitação</p>";
                     break;
-                case 1:
+                case "sucesso":
                     print "<p style='color: green;'>Solicitação feita com sucesso!</p>";
                     break;
             }

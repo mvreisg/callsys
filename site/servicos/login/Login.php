@@ -14,15 +14,13 @@ class Login
 
     public function login()
     {
+        $conexao = Conexao::get();
         try {
             // TODO: Checar se o usuário está ativo            
             $usuario = new Usuario(null, null, null, null, null, $this->usuario, $this->senha, null);
-            $resultado = array();
-            $resultado['existe'] = $usuario->existe();
-            $resultado['ativo'] = $usuario->ativo();
-            return $resultado;
+            return $usuario->autenticar();
         } catch (PDOException $e) {
-            var_dump($e);
+            return array("erro" => $e);
         }
     }
 }
