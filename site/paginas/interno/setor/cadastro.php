@@ -1,9 +1,15 @@
 <?php
 session_start();
 
-// Verifica se há login
+// Importa a classe de Request
+require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";
+
+// Script PHP que verifica a chave de login da sesão
 require_once "../../../servicos/login/verificarLogin.php";
+
+$urlPesquisa = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/setor/pesquisa.php";
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
 
@@ -12,6 +18,7 @@ require_once "../../../servicos/login/verificarLogin.php";
     <link rel="stylesheet" type="text/css" href="../../../estilos/fontes/fontes.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/interno/interno.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/interno/setor/cadastro.css" />
+    <script type="application/javascript" src="../../../scripts/interno/setor/cadastro.js"></script>
     <meta charset="utf-8" />
     <title>CallSYS - Cadastrar Setor</title>
 </head>
@@ -21,12 +28,13 @@ require_once "../../../servicos/login/verificarLogin.php";
         <?php require_once "../nav.php"; ?>
     </nav>
     <section>
+        <button onclick="redirecionarParaPesquisa('<?php print $urlPesquisa; ?>');">&#8592; Voltar</button>
         <h1>Cadastrar Setor</h1>
         <?php
-        // TODO: invalidar GET após recebimento
         if (isset($_GET['insert'])) {
             switch ($_GET['insert']) {
                 case "sucesso":
+                    // TODO: Fazer via JavaScript
                     print "<p style='color: green;'>Setor cadastrado com sucesso</p>";
                     break;
             }
@@ -49,9 +57,6 @@ require_once "../../../servicos/login/verificarLogin.php";
             <div>
                 <!-- Confirmar -->
                 <input class="inline-block" type="submit" name="confirmar" value="Confirmar" formaction="../../../servicos/operacao/setor/cadastro.php" />
-
-                <!-- Cancelar -->
-                <input class="inline-block" type="button" name="cancelar" value="Cancelar">
 
                 <!-- Limpar -->
                 <input class="inline-block" type="button" name="limpar" value="Limpar">

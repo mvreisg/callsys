@@ -38,7 +38,7 @@ $_SESSION['login'] = false;
 </head>
 
 <body>
-    <div id="div-login">
+    <div id="login">
         <h1>CallSYS</h1>
         <?php
         // Checa se o Usuario existe via GET

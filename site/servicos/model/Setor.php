@@ -14,6 +14,21 @@ class Setor
         $this->ativo = $ativo;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
     public function inserir()
     {
         $conexao = Conexao::get();
@@ -42,14 +57,37 @@ class Setor
 
     public function consultarTodos()
     {
+        // Pega o objeto estático de Conexao
         $conexao = Conexao::get();
         try {
-            $sqlSelectTodos = "select * from setor";
-            $declaracao = $conexao->prepare($sqlSelectTodos);
+            // Prepara uma declaração de consulta no banco
+            $declaracao = $conexao->prepare("select * from setor");
+
+            // Executa a declaração
             $declaracao->execute();
-            return $declaracao->fetchAll(PDO::FETCH_ASSOC);
+            $busca = $declaracao->fetchAll(PDO::FETCH_ASSOC);
+
+            // Checa se a busca deu certo
+            if (!$busca) {
+                // Se não deu certo, retorne o erro
+                return array("erro" => "Erro ao buscar todos os Setores");
+            }
+            // Se deu certo, 
+
+            // Preencha o array de objetos Setor
+            $setores = array();
+            foreach ($busca as $setor) {
+                $setores[] = new Setor(
+                    $setor['id'],
+                    $setor['nome'],
+                    $setor['ativo']
+                );
+            }
+            // Retorna um array com os objetos Setor associados a uma chave 'setores'
+            return array("setores" => $setores);
         } catch (PDOException $e) {
-            var_dump($e);
+            // catch retorna erro
+            array("erro" => $e);
         }
     }
 }

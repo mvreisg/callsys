@@ -1,8 +1,10 @@
 <?php
 session_start();
 
+// Script PHP que verifica a chave de login da sesão
 require_once "../../servicos/login/verificarLogin.php";
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
 

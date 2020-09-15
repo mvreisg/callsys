@@ -1,13 +1,21 @@
 /* setor/pesquisa.css */
 
-#div-pesquisa {
+/* Pesquisa */
+#pesquisa {
     display: inline-block;
 }
 
-#div-cadastro {
+/* Cadastro */
+#cadastro {
     display: inline-block;
 }
 
-#div-edicao {
-    display: inline-block;
+/* Setores */
+#setores {
+    padding-top: 12px;
+}
+
+#setores table tr th {
+    text-align: start;
+    padding: 2px 4px;  
 }
