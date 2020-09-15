@@ -7,6 +7,7 @@ class Setor
     private $nome;
     private $ativo;
 
+    // Construtor
     public function __construct($id, $nome, $ativo)
     {
         $this->id = $id;
@@ -14,6 +15,7 @@ class Setor
         $this->ativo = $ativo;
     }
 
+    // Getters
     public function getId()
     {
         return $this->id;
@@ -29,29 +31,62 @@ class Setor
         return $this->ativo;
     }
 
+    // Métodos concretos
     public function inserir()
     {
+        // Pega o objeto estático de Conexao
         $conexao = Conexao::get();
         try {
             // TODO: Checar se setor já existe
+
+            // Inicia a transação
             $conexao->beginTransaction();
-            $sqlInsercao = "insert into setor (nome, ativo) values (:nome, :ativo);";
-            $declaracao = $conexao->prepare($sqlInsercao);
+
+            // Prepara a execução do código SQL pela conexão retornando um PDOStatement
+            $declaracao = $conexao->prepare("insert into setor (nome, ativo) values (:nome, :ativo);");
+
+            // Executa o PDOStatement, retornando um booleano se deu certo ou não
             $deuCerto = $declaracao->execute(
                 array(
                     ":nome"  => $this->nome,
                     ":ativo" => $this->ativo
                 )
             );
+
+            // Checa se deu certo
+            if ($deuCerto) {
+                // Se deu certo, commita a transação e retorna uma chave de sucesso com a quantidade de linhas afetadas
+                $conexao->commit();
+                return array("sucesso" => $declaracao->rowCount());
+            } else {
+                // Senão, da rollback e retorna o erro
+                $conexao->rollBack();
+                return array("erro" => "Inserção de Setor mal-sucedida");
+            }
+        } catch (PDOEXception $e) {
+            // catch dá rollback e retorna o erro
+            $conexao->rollBack();
+            return array("erro" => $e);
+        }
+    }
+
+    public function alterarAtivo()
+    {
+        $conexao = Conexao::get();
+        try {
+            $conexao->beginTransaction();
+            $declaracao = $conexao->prepare("update setor set ativo = :ativo where id = :id");
+            $deuCerto = $declaracao->execute();
             if ($deuCerto) {
                 $conexao->commit();
+                return array("sucesso" => $declaracao->rowCount());
             } else {
                 $conexao->rollBack();
+                return array("erro" => "update de Setor falhou");
             }
-            return $declaracao->rowCount();
-        } catch (PDOEXception $e) {
+        } catch (PDOException $e) {
             $conexao->rollBack();
-            var_dump($e);
+            return array("erro" => $e);
         }
     }
 
