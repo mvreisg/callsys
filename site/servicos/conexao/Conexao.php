@@ -8,7 +8,7 @@ class Conexao
     private const USUARIO = "root";
     private const SENHA = "";
 
-    private static $pdo;
+    private static \PDO $pdo;
 
     public static function get()
     {

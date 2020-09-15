@@ -32,6 +32,7 @@ class Setor
     }
 
     // Métodos concretos
+
     public function inserir()
     {
         // Pega o objeto estático de Conexao
@@ -72,11 +73,28 @@ class Setor
 
     public function alterarAtivo()
     {
+        // Checa o valor das variáveis que serão usadas
+        if (!isset($this->id)) {
+            return array("erro" => "Variável 'ID' não setada");
+        }
+        if (!isset($this->ativo)) {
+            return array("erro" => "Variável 'Ativo' não setada");
+        }
+
+        // Pega o objeto de conexao
         $conexao = Conexao::get();
         try {
+            // Inicia a transação
             $conexao->beginTransaction();
+
+            // Prepara um update, retornando um PDOStatement
             $declaracao = $conexao->prepare("update setor set ativo = :ativo where id = :id");
-            $deuCerto = $declaracao->execute();
+            $deuCerto = $declaracao->execute(
+                array(
+                    ":ativo" => $this->ativo,
+                    ":id"    => $this->id
+                )
+            );
             if ($deuCerto) {
                 $conexao->commit();
                 return array("sucesso" => $declaracao->rowCount());
@@ -89,6 +107,31 @@ class Setor
             return array("erro" => $e);
         }
     }
+
+    /*
+    public function consultarPorId()
+    {
+        // Checa se o id é diferente de nulo        
+        if (!isset($this->id)) {
+            return array("erro" => "Variável ID não setada");
+        } elseif ($this->id < 1) {
+            return array("erro" => "Variável ID é menor que 1");
+        }
+
+        // Pega o objeto de conexão com o banco
+        $conexao = Conexao::get();
+        try {
+            $declaracao = $conexao->prepare("select * from setor where id = :id");
+            $declaracao->execute(
+                array(
+                    ":id" => $this->id
+                )
+            );
+        } catch (PDOException $e) {
+            // catch retorna erro
+            return array("erro" => $e);
+        }
+    }*/
 
     public function consultarTodos()
     {

@@ -1,18 +1,54 @@
 <?php
 
+// Import da classe Request
+require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";
+
 // Importa a model de Setor
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/model/Setor.php";
 
 // URL para redirecionamento
-$urlRedirecionamento = "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/setor/pesquisa.php?";
+$urlRedirecionamento = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/setor/pesquisa.php?";
 
-// Checa se o GET de setAtivo foi recebido
-if (!isset($_GET['setAtivo'])) {
-    // Se a chave 'setAtivo' NÃO existe
-    $urlRedirecionamento .= "alterado=0";
-} else if ($_GET['setAtivo']) {
-    // Senão se existe e está ativo
+$dadosValidos = true;
 
-    // Edita o valor do setor no banco
-
+// Checa se o GET de id_setor foi recebido
+if (!isset($_GET['id_setor'])) {
+    $dadosValidos = false;
+    $urlRedirecionamento .= "id_setor_informado=0&";
 }
+
+// Checa se o GET de novo_ativo foi recebido
+if (!isset($_GET['novo_ativo'])) {
+    // Se a chave GET 'novo_ativo' NÃO existe, dizer que ela não foi informada na URL
+    $dadosValidos = false;
+    $urlRedirecionamento .= "ativo_informado=0&";
+}
+
+// Checa se os dados são válidos
+if ($dadosValidos) {
+    // Se os dados SÃO váildos
+
+    // Atribui os valores do GET
+    $idSetor = $_GET['id_setor'];
+    $novoAtivo = $_GET['novo_ativo'];
+
+    // Tenta alterar o campo 'ativo' da tabela setor
+    $resultado = (new Setor($idSetor, null, $novoAtivo))->alterarAtivo();
+
+    // Checa se a chave que retornou foi 'erro'
+    if (isset($resultado['erro'])) {
+        // Se sim, retorne o erro        
+        $urlRedirecionamento .= "alterado=0";
+    }
+    // Senão, checa se a chave que retornou foi sucesso
+    elseif (isset($resultado['sucesso'])) {
+        $urlRedirecionamento .= "alterado=1";
+    }
+}
+?>
+
+<!-- JavaScript -->
+
+<script type="text/javascript">
+    location.href = '<?php print $urlRedirecionamento; ?>';
+</script>

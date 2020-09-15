@@ -42,7 +42,8 @@ create table solicitacao (
     id_usuario int unsigned zerofill not null,
     estado int unsigned not null,
     descricao_problema varchar(1000),
-    data_hora_solicitacao datetime not null
+    data_hora_solicitacao datetime not null,
+    foreign key (id_usuario) references usuario (id)
 );
 create table equipamento_solicitacao (
     id int zerofill unsigned primary key auto_increment,
