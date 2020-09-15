@@ -1,1 +1,21 @@
 /* CSS da página de Pesquisa do Equipamento */
+
+/* Pesquisa */
+#pesquisa {
+    display: inline-block;
+}
+
+/* Cadastro */
+#cadastro {
+    display: inline-block;
+}
+
+/* Setores */
+#equipamentos {
+    padding-top: 12px;
+}
+
+#equipamentos table tr th {
+    text-align: start;
+    padding: 2px 4px;  
+}

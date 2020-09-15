@@ -1,9 +1,16 @@
 <?php
 session_start();
 
-// Verifica se há login
+// Importa a classe de Request
+require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";
+
+// URL de redirecionamento para a página de cadastro
+$urlCadastro = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/funcao/cadastro.php";
+
+// Script PHP que verifica a chave de login da sesão
 require_once "../../../servicos/login/verificarLogin.php";
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
 
@@ -12,6 +19,7 @@ require_once "../../../servicos/login/verificarLogin.php";
     <link rel="stylesheet" type="text/css" href="../../../estilos/fontes/fontes.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/interno/interno.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/interno/funcao/pesquisa.css" />
+    <script type="application/javascript" src="../../../scripts/interno/funcao/pesquisa.js"></script>
     <meta charset="utf-8" />
     <title>CallSYS - Funções</title>
 </head>
@@ -27,7 +35,7 @@ require_once "../../../servicos/login/verificarLogin.php";
             <button onclick="">Pesquisar</button>
         </div>
         <div id="cadastro">
-            <button onclick="">Cadastrar</button>
+            <button onclick="redirecionarParaCadastro('<?php print $urlCadastro; ?>');">Cadastrar</button>
         </div>
         <div id="funcoes">
             <table>

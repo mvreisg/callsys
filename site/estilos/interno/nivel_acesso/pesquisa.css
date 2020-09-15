@@ -1,1 +1,21 @@
 /* CSS da página de Pesquisa do Nível de Acesso */
+
+/* Pesquisa */
+#pesquisa {
+    display: inline-block;
+}
+
+/* Cadastro */
+#cadastro {
+    display: inline-block;
+}
+
+/* Setores */
+#niveis-acesso {
+    padding-top: 12px;
+}
+
+#niveis-acesso table tr th {
+    text-align: start;
+    padding: 2px 4px;  
+}

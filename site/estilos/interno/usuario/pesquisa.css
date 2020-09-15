@@ -1,1 +1,21 @@
 /* CSS da página de Pesquisa de Usuário */
+
+/* Pesquisa */
+#pesquisa {
+    display: inline-block;
+}
+
+/* Cadastro */
+#cadastro {
+    display: inline-block;
+}
+
+/* Setores */
+#usuarios {
+    padding-top: 12px;
+}
+
+#usuarios table tr th {
+    text-align: start;
+    padding: 2px 4px;  
+}

@@ -1,1 +1,21 @@
 /* CSS da página de Pesquisa de Solicitação */
+
+/* Pesquisa */
+#pesquisa {
+    display: inline-block;
+}
+
+/* Cadastro */
+#cadastro {
+    display: inline-block;
+}
+
+/* Setores */
+#solicitacoes {
+    padding-top: 12px;
+}
+
+#solicitacoes table tr th {
+    text-align: start;
+    padding: 2px 4px;  
+}

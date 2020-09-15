@@ -7,6 +7,7 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.
 // Script PHP que verifica a chave de login da sesão
 require_once "../../../servicos/login/verificarLogin.php";
 
+// URL de redirecionamento para a página de pesquisa
 $urlPesquisa = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/setor/pesquisa.php";
 ?>
 

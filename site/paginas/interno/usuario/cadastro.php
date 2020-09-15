@@ -1,9 +1,16 @@
 <?php
 session_start();
 
-// Verifica se há login
+// Importa a classe de Request
+require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";
+
+// Script PHP que verifica a chave de login da sesão
 require_once "../../../servicos/login/verificarLogin.php";
+
+// URL de redirecionamento para a página de pesquisa
+$urlPesquisa = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/usuario/pesquisa.php";
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
 
@@ -12,6 +19,7 @@ require_once "../../../servicos/login/verificarLogin.php";
     <link rel="stylesheet" type="text/css" href="../../../estilos/fontes/fontes.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/interno/interno.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/interno/usuario/cadastro.css" />
+    <script type="application/javascript" src="../../../scripts/interno/usuario/cadastro.js"></script>
     <meta charset="utf-8" />
     <title>CallSYS - Cadastrar Usuário</title>
 </head>
@@ -21,6 +29,7 @@ require_once "../../../servicos/login/verificarLogin.php";
         <?php require_once "../nav.php"; ?>
     </nav>
     <section>
+        <button onclick="redirecionarParaPesquisa('<?php print $urlPesquisa; ?>');">&#8592; Voltar</button>
         <h1>Cadastrar Usuário</h1>
         <?php
         if (isset($_GET['insert'])) {
