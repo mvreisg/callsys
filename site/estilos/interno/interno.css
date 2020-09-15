@@ -1,14 +1,13 @@
-/* Pattern de estilo das pages internas */
+/* Estilo comum para as páginas internas */
 
-body {    
-    background-size: cover;
+body {        
     background-color: #f2f2f2;
     font-family: 'Comfortaa', sans-serif;
 }
 
 nav {
     /*border: 2px solid white;*/    
-    background-color: rgb(0, 179, 179);
+    background-color: rgb(0, 179, 179);    
 }
 
 nav h1 {
@@ -31,7 +30,7 @@ nav a:hover {
 }
 
 section {
-    padding: 10px;
+    padding: 14px;
 }
 
 footer{

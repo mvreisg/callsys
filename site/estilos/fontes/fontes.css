@@ -1,0 +1,7 @@
+/* Import de Fontes */
+
+@font-face {
+    font-family: 'Comfortaa';
+    src: url('../../fontes/Comfortaa/Comfortaa.ttf');
+    src: url('../../fontes/Comfortaa/comfortaa-webfont.woff') format('woff');
+}

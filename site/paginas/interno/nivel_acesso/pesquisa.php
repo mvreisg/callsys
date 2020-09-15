@@ -8,9 +8,9 @@ require_once "../../../servicos/login/verificarLogin.php";
 <html lang="pt-BR" dir="ltr">
 
 <head>
-    <link rel="stylesheet" type="text/css" href="../../../estilos/fontes.css" />
-    <link rel="stylesheet" type="text/css" href="../../../estilos/geral.css" />
-    <link rel="stylesheet" type="text/css" href="../../../estilos/interno.css" />
+    <link rel="stylesheet" type="text/css" href="../../../estilos/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../../estilos/fontes/fontes.css" />
+    <link rel="stylesheet" type="text/css" href="../../../estilos/interno/interno.css" />
     <meta charset="utf-8" />
     <title>CallSYS - Níveis de Acesso</title>
 </head>
