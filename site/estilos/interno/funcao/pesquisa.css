@@ -1,4 +1,4 @@
-/* CSS da página de Pesquisa do Setor */
+/* CSS da página de Pesquisa da Função */
 
 /* Pesquisa */
 #pesquisa {
@@ -11,11 +11,11 @@
 }
 
 /* Setores */
-#setores {
+#funcoes {
     padding-top: 12px;
 }
 
-#setores table tr th {
+#funcoes table tr th {
     text-align: start;
     padding: 2px 4px;  
 }

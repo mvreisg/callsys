@@ -11,6 +11,7 @@ require_once "../../../servicos/login/verificarLogin.php";
     <link rel="stylesheet" type="text/css" href="../../../estilos/reset.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/fontes/fontes.css" />
     <link rel="stylesheet" type="text/css" href="../../../estilos/interno/interno.css" />
+    <link rel="stylesheet" type="text/css" href="../../../estilos/interno/solicitacao/pesquisa.css" />
     <meta charset="utf-8" />
     <title>CallSYS - Solicitações</title>
 </head>

@@ -8,7 +8,7 @@ $items = array(
     "Usuário"         => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/usuario/cadastro.php",
     "Equipamento"     => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/equipamento/cadastro.php",
     "Setor"           => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/setor/pesquisa.php",
-    "Função"          => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/funcao/cadastro.php",
+    "Função"          => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/funcao/pesquisa.php",
     "Nível de Acesso" => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/nivel_acesso/cadastro.php",
     "Sair"            => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/index.php",
 );
