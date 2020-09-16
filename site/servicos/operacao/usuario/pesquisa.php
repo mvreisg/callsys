@@ -6,8 +6,13 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.
 // Importa a model de Usuario
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/model/Usuario.php";
 
-// Realiza a consulta de todos as funções e captura o resultado
-$resultado = (new Usuario(null, null, null, null, null, null, null, null))->consultarTodos();
+if ($pesquisarPorNome) {
+    $resultado = (new Usuario(null, null, null, null, $nome, null, null, null))->consultarPorNome();
+} else {
+    // Realiza a consulta de todos as funções e captura o resultado
+    $resultado = (new Usuario(null, null, null, null, null, null, null, null))->consultarTodos();
+}
+
 
 // Checa se a chave recebida é 'usuarios'
 if (isset($resultado['usuarios'])) {

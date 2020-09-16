@@ -107,6 +107,36 @@ class NivelAcesso
         }
     }
 
+    public function consultarPorNome()
+    {
+        if (!isset($this->nome)) {
+            return array("erro" => "nome não informado");
+        }
+
+        // Pega o objeto estático de Conexao
+        $conexao = Conexao::get();
+        try {
+            $declaracao = $conexao->prepare("select * from nivel_acesso where nome like '{$this->nome}%'");
+            $declaracao->execute();
+            $busca = $declaracao->fetchAll(PDO::FETCH_ASSOC);
+            if (!$busca) {
+                return array("erro" => "Não foi encontrado nenhum nível de acesso com o nome {$this->nome}");
+            } else {
+                $niveisAcesso = array();
+                foreach ($busca as $linha) {
+                    $niveisAcesso[] = new NivelAcesso(
+                        $linha['id'],
+                        $linha['nome'],
+                        $linha['ativo']
+                    );
+                }
+                return array("niveis_acesso" => $niveisAcesso);
+            }
+        } catch (PDOException $e) {
+            return array("erro" => $e);
+        }
+    }
+
     public function consultarTodos()
     {
         // Pega o objeto de conexão com o banco

@@ -6,8 +6,13 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.
 // Importa a model de Equipamento
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/model/Equipamento.php";
 
-// Realiza a consulta de todos as funções e captura o resultado
-$resultado = (new Equipamento(null, null, null, null))->consultarTodos();
+if ($pesquisarPorNome) {
+    $resultado = (new Equipamento(null, $nome, null, null))->consultarPorNome();
+} else {
+    // Realiza a consulta de todos as funções e captura o resultado
+    $resultado = (new Equipamento(null, null, null, null))->consultarTodos();
+}
+
 
 // Checa se a chave recebida é 'equipamentos'
 if (isset($resultado['equipamentos'])) {

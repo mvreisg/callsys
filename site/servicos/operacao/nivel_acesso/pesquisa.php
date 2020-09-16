@@ -6,8 +6,13 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.
 // Importa a model de NivelAcesso
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/model/NivelAcesso.php";
 
-// Realiza a consulta de todos as funções e captura o resultado
-$resultado = (new NivelAcesso(null, null, null))->consultarTodos();
+if ($pesquisarPorNome) {
+    $resultado = (new NivelAcesso(null, $nome, null))->consultarPorNome();
+} else {
+    // Realiza a consulta de todos as funções e captura o resultado
+    $resultado = (new NivelAcesso(null, null, null))->consultarTodos();
+}
+
 
 // Checa se a chave recebida é 'niveis_acesso'
 if (isset($resultado['niveis_acesso'])) {

@@ -6,8 +6,12 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.
 // Importa a model de Setor
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/model/Setor.php";
 
-// Realiza a consulta de todos os setores e captura o resultado
-$resultado = (new Setor(null, null, null))->consultarTodos();
+if ($pesquisarPorNome) {
+    $resultado = (new Setor(null, $nome, null))->consultarPorNome();
+} else {
+    // Realiza a consulta de todos os setores e captura o resultado
+    $resultado = (new Setor(null, null, null))->consultarTodos();
+}
 
 // Checa se a chave recebida é 'setores'
 if (isset($resultado['setores'])) {

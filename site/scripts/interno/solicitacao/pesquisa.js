@@ -14,6 +14,6 @@ function redirecionarParaEstado(url, idSolicitacao) {
         }
     }
     url += ("novo_estado=" + optionSelecionada.value + "&");
-    alert(url);
+    //alert(url);
     location.href = url;
 }

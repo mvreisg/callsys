@@ -1,14 +1,24 @@
 <?php
 session_start();
 
+// Script PHP que verifica a chave de login da sesão
+require_once "../../../servicos/login/verificarLogin.php";
+
 // Importa a classe de Request
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";
 
 // URL de redirecionamento para a página de cadastro
 $urlCadastro = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/usuario/cadastro.php";
 
-// Script PHP que verifica a chave de login da sesão
-require_once "../../../servicos/login/verificarLogin.php";
+// URL para pesquisa
+$urlPesquisa = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/usuario/pesquisa.php?";
+
+$pesquisarPorNome = false;
+$nome = "";
+if (isset($_GET['nome'])) {
+    $pesquisarPorNome = true;
+    $nome = $_GET['nome'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,8 +41,8 @@ require_once "../../../servicos/login/verificarLogin.php";
     <section>
         <h1>Usuários</h1>
         <div id="pesquisa">
-            <input name="input_pesquisa" type="text" placeholder="Nome" />
-            <button onclick="">Pesquisar</button>
+            <input id="input_pesquisa" name="input_pesquisa" type="text" placeholder="Nome" />
+            <button onclick="pesquisarPorNome('<?php print $urlPesquisa; ?>');">Pesquisar</button>
         </div>
         <div id="cadastro">
             <button onclick="redirecionarParaCadastro('<?php print $urlCadastro; ?>');">Cadastrar</button>

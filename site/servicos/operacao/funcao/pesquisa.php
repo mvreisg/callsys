@@ -6,8 +6,12 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.
 // Importa a model de Funcao
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/model/Funcao.php";
 
-// Realiza a consulta de todos as funções e captura o resultado
-$resultado = (new Funcao(null, null, null))->consultarTodos();
+if ($pesquisarPorNome) {
+    $resultado = (new Funcao(null, $nome, null))->consultarPorNome();
+} else {
+    // Realiza a consulta de todos as funções e captura o resultado
+    $resultado = (new Funcao(null, null, null))->consultarTodos();
+}
 
 // Checa se a chave recebida é 'funcoes'
 if (isset($resultado['funcoes'])) {

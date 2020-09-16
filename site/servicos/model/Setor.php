@@ -112,6 +112,36 @@ class Setor
         }
     }
 
+    public function consultarPorNome()
+    {
+        if (!isset($this->nome)) {
+            return array("erro" => "nome não informado");
+        }
+
+        // Pega o objeto estático de Conexao
+        $conexao = Conexao::get();
+        try {
+            $declaracao = $conexao->prepare("select * from setor where nome like '{$this->nome}%'");
+            $declaracao->execute();
+            $busca = $declaracao->fetchAll(PDO::FETCH_ASSOC);
+            if (!$busca) {
+                return array("erro" => "Não foi encontrado nenhum setor com o nome {$this->nome}");
+            } else {
+                $setores = array();
+                foreach ($busca as $linha) {
+                    $setores[] = new Setor(
+                        $linha['id'],
+                        $linha['nome'],
+                        $linha['ativo']
+                    );
+                }
+                return array("setores" => $setores);
+            }
+        } catch (PDOException $e) {
+            return array("erro" => $e);
+        }
+    }
+
     public function consultarTodos()
     {
         // Pega o objeto estático de Conexao

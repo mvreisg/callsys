@@ -107,6 +107,36 @@ class Funcao
         }
     }
 
+    public function consultarPorNome()
+    {
+        if (!isset($this->nome)) {
+            return array("erro" => "nome não informado");
+        }
+
+        // Pega o objeto estático de Conexao
+        $conexao = Conexao::get();
+        try {
+            $declaracao = $conexao->prepare("select * from funcao where nome like '{$this->nome}%'");
+            $declaracao->execute();
+            $busca = $declaracao->fetchAll(PDO::FETCH_ASSOC);
+            if (!$busca) {
+                return array("erro" => "Não foi encontrada nenhuma função com o nome {$this->nome}");
+            } else {
+                $funcoes = array();
+                foreach ($busca as $linha) {
+                    $funcoes[] = new Funcao(
+                        $linha['id'],
+                        $linha['nome'],
+                        $linha['ativo']
+                    );
+                }
+                return array("funcoes" => $funcoes);
+            }
+        } catch (PDOException $e) {
+            return array("erro" => $e);
+        }
+    }
+
     public function consultarTodos()
     {
         // Pega o objeto de conexão com o banco

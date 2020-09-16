@@ -258,6 +258,41 @@ class Usuario
         }
     }
 
+    public function consultarPorNome()
+    {
+        if (!isset($this->nome)) {
+            return array("erro" => "nome não informado");
+        }
+
+        // Pega o objeto estático de Conexao
+        $conexao = Conexao::get();
+        try {
+            $declaracao = $conexao->prepare("select * from usuario where nome like '{$this->nome}%'");
+            $declaracao->execute();
+            $busca = $declaracao->fetchAll(PDO::FETCH_ASSOC);
+            if (!$busca) {
+                return array("erro" => "Não foi encontrado nenhum usuário com o nome {$this->nome}");
+            } else {
+                $usuarios = array();
+                foreach ($busca as $linha) {
+                    $usuarios[] = new Usuario(
+                        $linha['id'],
+                        $linha['id_setor'],
+                        $linha['id_funcao'],
+                        $linha['id_nivel_acesso'],
+                        $linha['nome'],
+                        $linha['usuario'],
+                        $linha['senha'],
+                        $linha['ativo'],
+                    );
+                }
+                return array("usuarios" => $usuarios);
+            }
+        } catch (PDOException $e) {
+            return array("erro" => $e);
+        }
+    }
+
     public function consultarTodos()
     {
         $conexao = Conexao::get();
