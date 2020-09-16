@@ -267,7 +267,7 @@ class Usuario
         // Pega o objeto estático de Conexao
         $conexao = Conexao::get();
         try {
-            $declaracao = $conexao->prepare("select * from usuario where nome like '{$this->nome}%'");
+            $declaracao = $conexao->prepare("select * from usuario where nome like '%{$this->nome}%'");
             $declaracao->execute();
             $busca = $declaracao->fetchAll(PDO::FETCH_ASSOC);
             if (!$busca) {

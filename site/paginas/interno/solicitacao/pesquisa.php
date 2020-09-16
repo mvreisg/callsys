@@ -41,7 +41,7 @@ if (isset($_GET['id'])) {
     <section>
         <h1>Solicitações</h1>
         <div id="pesquisa">
-            <input id="input_pesquisa" name="input_pesquisa" type="text" placeholder="Nome" />
+            <input id="input_pesquisa" name="input_pesquisa" type="text" placeholder="ID" />
             <button onclick="pesquisarPorId('<?php print $urlPesquisa; ?>');">Pesquisar</button>
         </div>
         <div id="cadastro">
