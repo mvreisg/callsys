@@ -17,3 +17,11 @@ function redirecionarParaEstado(url, idSolicitacao) {
     //alert(url);
     location.href = url;
 }
+
+function pesquisarPorId(url) {
+    let inputPesquisa = document.getElementById('input_pesquisa');
+    let id = parseInt(inputPesquisa.value);
+    url += ("id=" + id + "&");
+    //alert(url);
+    location.href = url;
+}

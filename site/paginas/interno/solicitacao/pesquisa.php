@@ -12,6 +12,13 @@ $urlCadastro = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/pa
 
 // URL para pesquisa
 $urlPesquisa = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/solicitacao/pesquisa.php?";
+
+$pesquisarPorId = false;
+$id = "";
+if (isset($_GET['id'])) {
+    $pesquisarPorId = true;
+    $id = $_GET['id'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,12 +40,10 @@ $urlPesquisa = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/pa
     </nav>
     <section>
         <h1>Solicitações</h1>
-        <!--
-        <div id="pesquisa">            
+        <div id="pesquisa">
             <input id="input_pesquisa" name="input_pesquisa" type="text" placeholder="Nome" />
-            <button onclick="pesquisarPorNome('<php print $urlPesquisa; ?>');">Pesquisar</button>            
+            <button onclick="pesquisarPorId('<?php print $urlPesquisa; ?>');">Pesquisar</button>
         </div>
-        -->
         <div id="cadastro">
             <button onclick="redirecionarParaCadastro('<?php print $urlCadastro; ?>');">Cadastrar</button>
         </div>
