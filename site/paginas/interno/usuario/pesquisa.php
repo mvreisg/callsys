@@ -39,17 +39,20 @@ require_once "../../../servicos/login/verificarLogin.php";
         </div>
         <div id="usuarios">
             <table>
-                <tr>
-                    <th>Ativo</th>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Usuário</th>
-                    <th>Senha</th>
-                    <th>Setor</th>
-                    <th>Função</th>
-                    <th>Nível de Acesso</th>
-                    <th>Operações</th>
-                </tr>
+                <tbody>
+                    <tr>
+                        <th>Ativo</th>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Usuário</th>
+                        <th>Senha</th>
+                        <th>Setor</th>
+                        <th>Função</th>
+                        <th>Nível de Acesso</th>
+                        <th>Operações</th>
+                    </tr>
+                    <?php require_once "../../../servicos/operacao/usuario/pesquisa.php" ?>
+                </tbody>
             </table>
         </div>
     </section>

@@ -39,13 +39,15 @@ require_once "../../../servicos/login/verificarLogin.php";
         </div>
         <div id="setores">
             <table>
-                <tr>
-                    <th>Ativo</th>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Operações</th>
-                </tr>
-                <?php require_once "../../../servicos/operacao/setor/pesquisa.php" ?>
+                <tbody>
+                    <tr>
+                        <th>Ativo</th>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Operações</th>
+                    </tr>
+                    <?php require_once "../../../servicos/operacao/setor/pesquisa.php" ?>
+                </tbody>
             </table>
         </div>
     </section>

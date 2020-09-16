@@ -42,10 +42,12 @@ require_once "../../../servicos/login/verificarLogin.php";
                 <tr>
                     <th>Estado</th>
                     <th>ID</th>
+                    <th>Equipamentos</th>
                     <th>Descrição do Problema</th>
                     <th>Data e Hora da Solicitação</th>
                     <th>Operações</th>
                 </tr>
+                <?php require_once "../../../servicos/operacao/solicitacao/pesquisa.php" ?>
             </table>
         </div>
     </section>

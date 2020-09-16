@@ -3,11 +3,13 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/conexao/Conexao.
 
 class Equipamento
 {
+    // Atributos
     private $id;
     private $nome;
     private $ativo;
     private $dataHoraCadastro;
 
+    // Construtor
     public function __construct($id, $nome, $ativo, $dataHoraCadastro)
     {
         $this->id = $id;
@@ -16,69 +18,179 @@ class Equipamento
         $this->dataHoraCadastro = $dataHoraCadastro;
     }
 
+    // Getters
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    public function getDataHoraCadastro()
+    {
+        return $this->dataHoraCadastro;
+    }
+
+    // Métodos concretos
     public function inserir()
     {
-        // TODO: Checar se equipamento já existe
+        // Pega o objeto de conexão com o banco
         $conexao = Conexao::get();
         try {
+            // Inicia a transação
             $conexao->beginTransaction();
-            $sqlInsercao = "insert into equipamento (nome, ativo, data_hora_cadastro) values (:nome, :ativo, now());";
-            $declaracao = $conexao->prepare($sqlInsercao);
-            $deuCerto = $declaracao->execute(
+
+            // Prepara uma inserção no banco, retornando uma delaração
+            $declaracao = $conexao->prepare(
+                "insert into equipamento (nome, ativo, data_hora_cadastro) values (:nome, :ativo, now());"
+            );
+
+            // Executa e retorna uma flag de sucesso
+            $sucesso = $declaracao->execute(
                 array(
                     ":nome"  => $this->nome,
                     ":ativo" => $this->ativo,
                 )
             );
-            if ($deuCerto) {
+            if ($sucesso) {
+                // Se sucedeu, commita e retorna 'sucesso'
                 $conexao->commit();
+                return array("sucesso" => $declaracao->rowCount());
             } else {
+                // Senão, dá rollback e retorna erro
                 $conexao->rollBack();
+                return array("erro" => "Não foi possível inserir o Equipamento");
             }
-            return $declaracao->rowCount();
         } catch (PDOException $e) {
+            // catch dá rollback e retorna erro
             $conexao->rollBack();
-            var_dump($e);
+            return array("erro" => $e);
+        }
+    }
+
+    public function alterarAtivo()
+    {
+        // Checa o valor das variáveis que serão usadas
+        if (!isset($this->id)) {
+            return array("erro" => "Variável 'ID' não setada");
+        }
+        if (!isset($this->ativo)) {
+            return array("erro" => "Variável 'Ativo' não setada");
+        }
+
+        // Pega o objeto de conexao
+        $conexao = Conexao::get();
+        try {
+            // Inicia a transação
+            $conexao->beginTransaction();
+
+            // Prepara um update, retornando um PDOStatement
+            $declaracao = $conexao->prepare("update equipamento set ativo = :ativo where id = :id");
+            $deuCerto = $declaracao->execute(
+                array(
+                    ":ativo" => $this->ativo,
+                    ":id"    => $this->id
+                )
+            );
+            if ($deuCerto) {
+                // Se deu certo, commita e retorna chave de sucesso
+                $conexao->commit();
+                return array("sucesso" => $declaracao->rowCount());
+            } else {
+                // Senão, dá rollback e retorna o erro
+                $conexao->rollBack();
+                return array("erro" => "update de Equipamento falhou");
+            }
+        } catch (PDOException $e) {
+            // catch retorna erro
+            $conexao->rollBack();
+            return array("erro" => $e);
         }
     }
 
     public function consultarPorId()
     {
+        // Checa consistencia dos dados
+        if (!isset($this->id)) {
+            return array("erro" => "id não informado");
+        }
+
+        // Pega o objeto de conexão com o banco
         $conexao = Conexao::get();
         try {
-            $sqlSelect = "select * from equipamento where id = :id";
-            $declaracao = $conexao->prepare($sqlSelect);
+            // Prepara uma consulta no banco, retornando uma delaração
+            $declaracao = $conexao->prepare("select * from equipamento where id = :id");
+
+            // Executa a daclaração
             $declaracao->execute(
                 array(
                     ":id" => $this->id
                 )
             );
+
+            // Busca o resultado
             $busca = $declaracao->fetch(PDO::FETCH_ASSOC);
+
             if (!$busca) {
-                return null;
+                // Se deu falso, retorna erro
+                return array("erro" => "Não foi encontrado Equipamento com o ID {$this->id}");
+            } else {
+                // Senão, retornar Equipamento
+                $equipamento = new Equipamento(
+                    $this->id,
+                    $busca['nome'],
+                    $busca['ativo'],
+                    $busca['data_hora_cadastro']
+                );
+                return array("equipamento" => $equipamento);
             }
-            return new Equipamento(
-                $this->id,
-                $busca['nome'],
-                $busca['ativo'],
-                $busca['data_hora_cadastro']
-            );
         } catch (PDOException $e) {
-            var_dump($e);
-            return null;
+            // catch retorna erro            
+            return array("erro" => $e);
         }
     }
 
     public function consultarTodos()
     {
+        // Pega o objeto de conexão com o banco
         $conexao = Conexao::get();
         try {
-            $sqlSelectTodos = "select * from equipamento";
-            $declaracao = $conexao->prepare($sqlSelectTodos);
+            // Prepara uma consulta no banco, retornando uma delaração
+            $declaracao = $conexao->prepare("select * from equipamento");
+
+            // Executa a declaração
             $declaracao->execute();
-            return $declaracao->fetchAll(PDO::FETCH_ASSOC);
+
+            // Retorna a busca
+            $busca = $declaracao->fetchAll(PDO::FETCH_ASSOC);
+
+            if (!$busca) {
+                // Se deu errado, retorna erro
+                return array("erro" => "Não foi possível buscar os Equipamentos");
+            } else {
+                // Senão, retorne os equipamentos
+                $equipamentos = array();
+                foreach ($busca as $linha) {
+                    $equipamentos[] = new Equipamento(
+                        $linha['id'],
+                        $linha['nome'],
+                        $linha['ativo'],
+                        $linha['data_hora_cadastro']
+                    );
+                }
+                return array("equipamentos" => $equipamentos);
+            }
         } catch (PDOException $e) {
-            var_dump($e);
+            // catch retorna erro            
+            return array("erro" => $e);
         }
     }
 }

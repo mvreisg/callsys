@@ -3,6 +3,7 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/conexao/Conexao.
 
 class Setor
 {
+    // Atributos
     private $id;
     private $nome;
     private $ativo;
@@ -96,42 +97,20 @@ class Setor
                 )
             );
             if ($deuCerto) {
+                // Se deu certo, commita e retorna chave de sucesso
                 $conexao->commit();
                 return array("sucesso" => $declaracao->rowCount());
             } else {
+                // Senão, dá rollback e retorna o erro
                 $conexao->rollBack();
                 return array("erro" => "update de Setor falhou");
             }
         } catch (PDOException $e) {
+            // catch retorna erro
             $conexao->rollBack();
             return array("erro" => $e);
         }
     }
-
-    /*
-    public function consultarPorId()
-    {
-        // Checa se o id é diferente de nulo        
-        if (!isset($this->id)) {
-            return array("erro" => "Variável ID não setada");
-        } elseif ($this->id < 1) {
-            return array("erro" => "Variável ID é menor que 1");
-        }
-
-        // Pega o objeto de conexão com o banco
-        $conexao = Conexao::get();
-        try {
-            $declaracao = $conexao->prepare("select * from setor where id = :id");
-            $declaracao->execute(
-                array(
-                    ":id" => $this->id
-                )
-            );
-        } catch (PDOException $e) {
-            // catch retorna erro
-            return array("erro" => $e);
-        }
-    }*/
 
     public function consultarTodos()
     {
@@ -143,26 +122,29 @@ class Setor
 
             // Executa a declaração
             $declaracao->execute();
+
+            // Retorna a busca
             $busca = $declaracao->fetchAll(PDO::FETCH_ASSOC);
 
             // Checa se a busca deu certo
             if (!$busca) {
                 // Se não deu certo, retorne o erro
                 return array("erro" => "Erro ao buscar todos os Setores");
-            }
-            // Se deu certo, 
+            } else {
+                // Se deu certo, 
 
-            // Preencha o array de objetos Setor
-            $setores = array();
-            foreach ($busca as $setor) {
-                $setores[] = new Setor(
-                    $setor['id'],
-                    $setor['nome'],
-                    $setor['ativo']
-                );
+                // Preencha o array de objetos Setor
+                $setores = array();
+                foreach ($busca as $setor) {
+                    $setores[] = new Setor(
+                        $setor['id'],
+                        $setor['nome'],
+                        $setor['ativo']
+                    );
+                }
+                // Retorna um array com os objetos Setor associados a uma chave 'setores'
+                return array("setores" => $setores);
             }
-            // Retorna um array com os objetos Setor associados a uma chave 'setores'
-            return array("setores" => $setores);
         } catch (PDOException $e) {
             // catch retorna erro
             array("erro" => $e);

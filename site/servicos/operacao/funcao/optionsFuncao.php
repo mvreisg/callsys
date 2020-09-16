@@ -1,8 +1,12 @@
 <?php
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/model/Funcao.php";
 
-$funcoes = (new Funcao(null, null, null))->consultarTodos();
+$resultado = (new Funcao(null, null, null))->consultarTodos();
 
-foreach ($funcoes as $funcao) {
-    print "<option value='{$funcao['id']}'>{$funcao['nome']}</option>";
+if (isset($resultado['funcoes'])) {
+    $funcoes = $resultado['funcoes'];
+
+    foreach ($funcoes as $funcao) {
+        print "<option value='{$funcao->getId()}'>{$funcao->getNome()}</option>";
+    }
 }

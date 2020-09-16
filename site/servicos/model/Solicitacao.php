@@ -6,13 +6,14 @@ require_once "EquipamentoSolicitacao.php";
 
 class Solicitacao
 {
-    // Dados do objeto Solicitação
+    // Atributos
     private $id;
     private $idUsuario;
     private $estado;
     private $descricaoProblema;
     private $dataHoraSolicitacao;
 
+    // Construtor
     public function __construct($id, $idUsuario, $estado, $descricaoProblema, $dataHoraSolicitacao)
     {
         $this->id = $id;
@@ -22,6 +23,33 @@ class Solicitacao
         $this->dataHoraSolicitacao = $dataHoraSolicitacao;
     }
 
+    // Getters
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getIdUsuario()
+    {
+        return $this->idUsuario;
+    }
+
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    public function getDescricaoProblema()
+    {
+        return $this->descricaoProblema;
+    }
+
+    public function getDataHoraSolicitacao()
+    {
+        return $this->dataHoraSolicitacao;
+    }
+
+    // Métodos concretos
     public function inserir($idsEquipamentos)
     {
         $conexao = Conexao::get();
@@ -38,7 +66,8 @@ class Solicitacao
             }
 
             // Verifica se o usuário existe            
-            if (!(new Usuario($this->idUsuario, null, null, null, null, null, null, null))->existe()) {
+            $resultadoUsuarioExiste = (new Usuario($this->idUsuario, null, null, null, null, null, null, null))->consultarPorId();
+            if (!isset($resultadoUsuarioExiste['usuario'])) {
                 return array("erro" => "Usuário não existe");
             }
 
@@ -51,15 +80,15 @@ class Solicitacao
             foreach ($idsEquipamentos as $idEquipamento) {
                 // Gera o objeto Equipamento com base no ID
                 $equipamentoBase = new Equipamento($idEquipamento, null, null, null);
-                $equipamentoCompleto = $equipamentoBase->consultarPorId();
+                $resultadoEquipamento = $equipamentoBase->consultarPorId();
 
                 // Verifica se o equipamento não existe
-                if (!isset($equipamentoCompleto)) {
+                if (!isset($resultadoEquipamento['equipamento'])) {
                     // Se não existe, cancelar e retornar erro
                     return array("erro" => "Não existe Equipamento com o ID $idEquipamento");
                 }
                 // Senão, popula o array de equipamentos
-                $equipamentos[] = $equipamentoCompleto;
+                $equipamentos[] = $resultadoEquipamento['equipamento'];
             }
 
             // /\ /\ /\ Verifica se os equipamentos existem /\ /\ /\
@@ -126,5 +155,112 @@ class Solicitacao
             $conexao->rollBack();
             return array("erro" => $e);
         }
+    }
+
+    public function alterarEstado()
+    {
+        // Checa o valor das variáveis que serão usadas
+        if (!isset($this->id)) {
+            return array("erro" => "Variável 'ID' não setada");
+        }
+        if (!isset($this->estado)) {
+            return array("erro" => "Variável 'Estado' não setada");
+        }
+
+        // Pega o objeto de conexao
+        $conexao = Conexao::get();
+        try {
+            // Inicia a transação
+            $conexao->beginTransaction();
+
+            // Prepara um update, retornando um PDOStatement
+            $declaracao = $conexao->prepare("update solicitacao set estado = :estado where id = :id");
+            $deuCerto = $declaracao->execute(
+                array(
+                    ":estado" => $this->estado,
+                    ":id"     => $this->id
+                )
+            );
+            if ($deuCerto) {
+                // Se deu certo, commita e retorna chave de sucesso
+                $conexao->commit();
+                return array("sucesso" => $declaracao->rowCount());
+            } else {
+                // Senão, dá rollback e retorna o erro
+                $conexao->rollBack();
+                return array("erro" => "alteração de estado da solicitacão {$this->id} falhou");
+            }
+        } catch (PDOException $e) {
+            // catch retorna erro
+            $conexao->rollBack();
+            return array("erro" => $e);
+        }
+    }
+
+    public function consultarPorId()
+    {
+        if (!isset($this->id)) {
+            return array("erro" => "id não informado");
+        }
+
+        $conexao = Conexao::get();
+        try {
+            $declaracao = $conexao->prepare("select * from solicitacao where id = :id");
+            $declaracao->execute(
+                array(
+                    ":id" => $this->id
+                )
+            );
+            $busca = $declaracao->fetch(PDO::FETCH_ASSOC);
+            if (!$busca) {
+                return array("erro" => "Não foi possível encontrar a solicitação com o ID {$this->id}");
+            } else {
+                $solicitacao = new Solicitacao(
+                    $busca['id'],
+                    $busca['id_usuario'],
+                    $busca['estado'],
+                    $busca['descricao_problema'],
+                    $busca['data_hora_solicitacao']
+                );
+                return array("solicitacao" => $solicitacao);
+            }
+        } catch (PDOException $e) {
+            return array("erro" => $e);
+        }
+    }
+
+    public function consultarTodos()
+    {
+        $conexao = Conexao::get();
+        try {
+            $declaracao = $conexao->prepare("select * from solicitacao");
+            $declaracao->execute();
+            $busca = $declaracao->fetchAll(PDO::FETCH_ASSOC);
+            if (!$busca) {
+                return array("erro" => "Não foi possível consultar todas as solicitações");
+            } else {
+                $solicitacoes = array();
+                foreach ($busca as $linha) {
+                    $solicitacoes[] = new Solicitacao(
+                        $linha['id'],
+                        $linha['id_usuario'],
+                        $linha['estado'],
+                        $linha['descricao_problema'],
+                        $linha['data_hora_solicitacao']
+                    );
+                }
+                return array("solicitacoes" => $solicitacoes);
+            }
+        } catch (PDOException $e) {
+            return array("erro" => $e);
+        }
+    }
+
+    public function consultarEquipamentosAssociados()
+    {
+        if (!isset($this->id)) {
+            return array("erro" => "id não informado");
+        }
+        return (new EquipamentoSolicitacao(null, $this->id, null))->consultarTodosEquipamentosDaSolicitacao();
     }
 }

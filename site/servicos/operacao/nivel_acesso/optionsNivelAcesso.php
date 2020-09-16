@@ -1,8 +1,12 @@
 <?php
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/model/NivelAcesso.php";
 
-$niveisAcesso = (new NivelAcesso(null, null, null))->consultarTodos();
+$resultado = (new NivelAcesso(null, null, null))->consultarTodos();
 
-foreach ($niveisAcesso as $nivelAcesso) {
-    print "<option value='{$nivelAcesso['id']}'>{$nivelAcesso['nome']}</option>";
+if (isset($resultado['niveis_acesso'])) {
+    $niveisAcesso = $resultado['niveis_acesso'];
+
+    foreach ($niveisAcesso as $nivelAcesso) {
+        print "<option value='{$nivelAcesso->getId()}'>{$nivelAcesso->getNome()}</option>";
+    }
 }

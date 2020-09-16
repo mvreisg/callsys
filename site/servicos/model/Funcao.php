@@ -3,10 +3,12 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/conexao/Conexao.
 
 class Funcao
 {
+    // Atributos
     private $id;
     private $nome;
     private $ativo;
 
+    // Construtor
     public function __construct($id, $nome, $ativo)
     {
         $this->id = $id;
@@ -14,14 +16,35 @@ class Funcao
         $this->ativo = $ativo;
     }
 
+    // Getters
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    // Métodos concretos
     public function inserir()
     {
+        // Pega o objeto de conexão com o banco
         $conexao = Conexao::get();
         try {
-            // TODO: Checar se função já existe
+            // Inicia a transação
             $conexao->beginTransaction();
-            $sqlInsercao = "insert into funcao (nome, ativo) values (:nome, :ativo);";
-            $declaracao = $conexao->prepare($sqlInsercao);
+
+            // Prepara o comando SQL para execução, gerando uma declaração
+            $declaracao = $conexao->prepare("insert into funcao (nome, ativo) values (:nome, :ativo);");
+
+            // Executa a declaração, retornando se deu certo ou não
             $deuCerto = $declaracao->execute(
                 array(
                     ":nome"  => $this->nome,
@@ -29,27 +52,91 @@ class Funcao
                 )
             );
             if ($deuCerto) {
+                // Se deu certo, commite e retorne chave de sucesso
                 $conexao->commit();
+                return array("sucesso" => $declaracao->rowCount());
             } else {
+                // Senão, dê rollback e retorne erro
                 $conexao->rollBack();
+                return array("erro" => "Função não foi inserida");
             }
-            return $declaracao->rowCount();
         } catch (PDOEXception $e) {
+            // catch dá rollback e retorna exception
             $conexao->rollBack();
-            var_dump($e);
+            return array("erro" => $e);
+        }
+    }
+
+    public function alterarAtivo()
+    {
+        // Checa o valor das variáveis que serão usadas
+        if (!isset($this->id)) {
+            return array("erro" => "Variável 'ID' não setada");
+        }
+        if (!isset($this->ativo)) {
+            return array("erro" => "Variável 'Ativo' não setada");
+        }
+
+        // Pega o objeto de conexao
+        $conexao = Conexao::get();
+        try {
+            // Inicia a transação
+            $conexao->beginTransaction();
+
+            // Prepara um update, retornando um PDOStatement
+            $declaracao = $conexao->prepare("update funcao set ativo = :ativo where id = :id");
+            $deuCerto = $declaracao->execute(
+                array(
+                    ":ativo" => $this->ativo,
+                    ":id"    => $this->id
+                )
+            );
+            if ($deuCerto) {
+                // Se deu certo, commita e retorna chave de sucesso
+                $conexao->commit();
+                return array("sucesso" => $declaracao->rowCount());
+            } else {
+                // Senão, dá rollback e retorna o erro
+                $conexao->rollBack();
+                return array("erro" => "Não foi possível alterar a Função");
+            }
+        } catch (PDOException $e) {
+            // catch retorna erro
+            $conexao->rollBack();
+            return array("erro" => $e);
         }
     }
 
     public function consultarTodos()
     {
+        // Pega o objeto de conexão com o banco
         $conexao = Conexao::get();
         try {
-            $sqlSelectTodos = "select * from funcao";
-            $declaracao = $conexao->prepare($sqlSelectTodos);
-            $declaracao->execute();
-            return $declaracao->fetchAll(PDO::FETCH_ASSOC);
+            // Prepara a execução SQL, retornando uma declaração
+            $declaracao = $conexao->prepare("select * from funcao");
+
+            // Executa a declaração, retornando se deu certo
+            $deuCerto = $declaracao->execute();
+
+            if ($deuCerto) {
+                // Se deu certo, retorne os objetos Funcao
+                $busca = $declaracao->fetchAll(PDO::FETCH_ASSOC);
+                $funcoes = array();
+                foreach ($busca as $linha) {
+                    $funcoes[] = new Funcao(
+                        $linha['id'],
+                        $linha['nome'],
+                        $linha['ativo']
+                    );
+                }
+                return array("funcoes" => $funcoes);
+            } else {
+                // Senão, retorne o erro                
+                return array("erro" => "Função não pôde ser consultada");
+            }
         } catch (PDOException $e) {
-            var_dump($e);
+            // catch retorna exception
+            return array("erro" => $e);
         }
     }
 }
