@@ -52,13 +52,20 @@ create table equipamento_solicitacao (
     foreign key (id_solicitacao) references solicitacao (id),
     foreign key (id_equipamento) references equipamento (id)
 );
+
 /*INSERTS PRIMEIRO LOGIN*/
 insert into setor (nome, ativo)
-values ('Setor Desenvolvimento', 1);
+values (
+    'Desenvolvimento', 1);
+
 insert into funcao (nome, ativo)
-values ('Desenvolvedor', 1);
+values (
+    'Desenvolvedor', 1);
+
 insert into nivel_acesso (nome, ativo)
-values ('Desenvolvedor', 1);
+values (
+    'Desenvolvedor', 1);
+
 insert into usuario (
         id_setor,
         id_funcao,
@@ -68,12 +75,4 @@ insert into usuario (
         senha,
         ativo
     )
-values (
-        1,
-        1,
-        1,
-        'a',
-        'a',
-        'a',
-        1
-    );
+values (1, 1, 1, 'a', 'a', 'a', 1);

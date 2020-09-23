@@ -36,7 +36,7 @@ $urlPesquisa = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/pa
         if (isset($_GET['insert'])) {
             switch ($_GET['insert']) {
                 case "sucesso":
-                    print "<p style='color: green;'>Função cadastrado com sucesso</p>";
+                    print "<p style='color: green;'>Função cadastrada com sucesso</p>";
                     break;
             }
         }
