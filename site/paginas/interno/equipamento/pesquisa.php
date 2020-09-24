@@ -41,7 +41,7 @@ if (isset($_GET['nome'])) {
     <section>
         <h1>Equipamentos</h1>
         <div id="pesquisa">
-            <input id="input_pesquisa" name="input_pesquisa" type="text" placeholder="Nome" />
+            <input id="input_pesquisa" name="input_pesquisa" type="text" placeholder="Nome" value="<?php ($pesquisarPorNome) ? print $nome : print "" ?>"/>
             <button onclick="pesquisarPorNome('<?php print $urlPesquisa; ?>');">Pesquisar</button>
         </div>
         <div id="cadastro">
