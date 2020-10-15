@@ -24,7 +24,8 @@ if (isset($resultado['usuarios'])) {
         // URL para ativação / inativação
         $urlAtivo  = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/servicos/operacao/usuario/ativo.php?";
         $urlAtivo .= "id_usuario=" . $usuario->getId() . "&novo_ativo=" . ($usuario->getAtivo() ? 0 : 1);
-
+        $urlEdicao = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/usuario/edicao.php?id={$usuario->getId()}";
+        
         // Pega o valor para saber se está ativo para dar a propriedade 'checked' para o 'input'
         $checked = $usuario->getAtivo() ? "checked" : "";
         print "<tr>";
@@ -36,7 +37,7 @@ if (isset($resultado['usuarios'])) {
         print "<td>{$usuario->getIdSetor()}</td>";
         print "<td>{$usuario->getIdFuncao()}</td>";
         print "<td>{$usuario->getIdNivelAcesso()}</td>";
-        print "<td><button onclick=\"alert('editar');\">Editar</button></td>";
+        print "<td><button onclick=\"redirecionarParaEdicao('$urlEdicao')\">Editar</button></td>";
         print "</tr>";
     }
 }

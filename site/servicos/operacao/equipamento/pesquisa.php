@@ -24,6 +24,8 @@ if (isset($resultado['equipamentos'])) {
         // URL para ativação / inativação
         $urlAtivo  = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/servicos/operacao/equipamento/ativo.php?";
         $urlAtivo .= "id_equipamento=" . $equipamento->getId() . "&novo_ativo=" . ($equipamento->getAtivo() ? 0 : 1);
+        $urlEdicao = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/equipamento/edicao.php?id={$equipamento->getId()}";
+
 
         // Pega o valor para saber se está ativo para dar a propriedade 'checked' para o 'input'
         $checked = $equipamento->getAtivo() ? "checked" : "";
@@ -32,7 +34,7 @@ if (isset($resultado['equipamentos'])) {
         print "<td>{$equipamento->getId()}</td>";
         print "<td>{$equipamento->getNome()}</td>";
         print "<td>{$equipamento->getDataHoraCadastro()}</td>";
-        print "<td><button onclick=\"alert('editar');\">Editar</button></td>";
+        print "<td><button onclick=\"redirecionarParaEdicao('$urlEdicao')\">Editar</button></td>";
         print "</tr>";
     }
 }

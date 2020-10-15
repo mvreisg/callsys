@@ -29,7 +29,8 @@ function printarSolicitacao($solicitacao)
 {
     $urlEstado  = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/servicos/operacao/solicitacao/estado.php?";
     $urlEstado .= "id_solicitacao=" . $solicitacao->getId() . "&";
-
+    $urlEdicao = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/solicitacao/edicao.php?id={$solicitacao->getId()}";
+    
     print "<tr>";
     print "<td>";
     print "<select id=\"estado" . (int)$solicitacao->getId() . "\">";
@@ -56,6 +57,6 @@ function printarSolicitacao($solicitacao)
     print "</td>";
     print "<td>{$solicitacao->getDescricaoProblema()}</td>";
     print "<td>{$solicitacao->getDataHoraSolicitacao()}</td>";
-    print "<td><button onclick=\"alert('editar');\">Editar</button></td>";
+    print "<td><button onclick=\"redirecionarParaEdicao('$urlEdicao')\">Editar</button></td>";
     print "</tr>";
 }

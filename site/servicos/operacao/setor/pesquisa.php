@@ -23,14 +23,15 @@ if (isset($resultado['setores'])) {
         // URL para ativação / inativação
         $urlAtivo  = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/servicos/operacao/setor/ativo.php?";
         $urlAtivo .= "id_setor=" . $setor->getId() . "&novo_ativo=" . ($setor->getAtivo() ? 0 : 1);
-
+        $urlEdicao = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/setor/edicao.php?id={$setor->getId()}";
+        
         // Pega o valor para saber se está ativo para dar a propriedade 'checked' para o 'input'
         $checked = $setor->getAtivo() ? "checked" : "";
         print "<tr>";
         print "<td><input type='checkbox' $checked onclick=\"redirecionarParaAtivo('$urlAtivo');\"/></td>";
         print "<td>{$setor->getId()}</td>";
         print "<td>{$setor->getNome()}</td>";
-        print "<td><button onclick=\"alert('editar');\">Editar</button></td>";
+        print "<td><button onclick=\"redirecionarParaEdicao('$urlEdicao')\">Editar</button></td>";
         print "</tr>";
     }
 }

@@ -25,3 +25,8 @@ function pesquisarPorId(url) {
     //alert(url);
     location.href = url;
 }
+
+function redirecionarParaEdicao(url){
+    alert(url);
+    location.href = url;
+}
