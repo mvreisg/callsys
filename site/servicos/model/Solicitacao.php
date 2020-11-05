@@ -157,6 +157,57 @@ class Solicitacao
         }
     }
 
+    public function alterarPorId()
+    {
+        $conexao = Conexao::get();
+        try {
+            // Verificando consistência dos dados
+            if (!isset($this->id)){
+                return array("erro" => "id não informado");
+            }
+            if (!isset($this->idUsuario)) {
+                return array("erro" => "idUsuario não informado");
+            }
+            if (!isset($this->descricaoProblema)) {
+                return array("erro" => "descricaoProblema não informado");
+            }
+
+            // Inicia a transação que só irá terminar com a edição de todos os objetos EquipamentoSolicitacao
+            $conexao->beginTransaction();
+
+            // SQL de edição na tabela Solicitacao
+            $sqlSolicitacao  = "update solicitacao set id_usuario = :idUsuario, descricao_problema = :descricaoProblema ";
+            $sqlSolicitacao .= "where id = :id;";
+
+            // Inserção na tabela Solicitação
+            $declaracaoSolicitacao = $conexao->prepare($sqlSolicitacao);
+            // Insere a Solicitacao no banco
+            $solicitacaoOK = $declaracaoSolicitacao->execute(
+                array(
+                    ":id"                  => $this->id,
+                    ":idUsuario"           => $this->idUsuario,                    
+                    ":descricaoProblema"   => $this->descricaoProblema
+                )
+            );
+
+            // Checa se a solicitação não foi editada com sucesso            
+            if (!$solicitacaoOK) {
+                // Se não foi editada com sucesso, dar rollback e retornar o erro
+                $conexao->rollBack();
+                return array("erro" => "Erro ao editar a solicitação");
+            }
+
+            // Commita a transação
+            $conexao->commit();
+
+            // Retorna a mensagem de sucesso
+            return array("sucesso" => "Solicitação editada com sucesso");
+        } catch (PDOException $e) {
+            $conexao->rollBack();
+            return array("erro" => $e);
+        }
+    }
+
     public function alterarEstado()
     {
         // Checa o valor das variáveis que serão usadas

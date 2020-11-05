@@ -62,13 +62,6 @@ $urlPesquisa = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/pa
                 </select>
             </div>
 
-            <!-- Setor 
-            <div>
-                <label class="block" for="setor">Setor</label>
-                <input type="text" name="setor" placeholder="ID" disabled />
-            </div>
-            -->
-
             <!-- Equipamento -->
             <div>
                 <span class="block">Selecionar Equipamento</span>
@@ -80,11 +73,6 @@ $urlPesquisa = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/pa
                 <label class="block" for="descricao_problema">Descreva o problema:</label>
                 <textarea name="descricao_problema" rows="20" cols="50" placeholder="Mouse quebrou, clique duplo, etc."></textarea>
             </div>
-
-            <!--
-                <p>Estado</p>
-                <input type="text" name="" placeholder="Em andamento"><br>                
-            -->
 
             <!-- Ações -->
             <div>
