@@ -7,6 +7,9 @@ require_once "../../../servicos/login/verificarLogin.php";
 // Importa a classe de Request
 require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.php";
 
+// Importa a classe de Nível Acesso
+require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/model/NivelAcesso.php";
+
 // URL de redirecionamento para a página de pesquisa
 $urlPesquisa = Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/nivel_acesso/pesquisa.php";
 
@@ -35,9 +38,35 @@ if (isset($_GET['id'])){
     <section>
         <h1>Editar Nível de Acesso</h1>        
         <button onclick="redirecionarParaPesquisa('<?php print $urlPesquisa; ?>');">&#8592; Voltar</button>
-        <?php 
-            
-        ?>
+        <?php if (isset($_GET['alterado'])){ ?>
+            <p style="color: green;">Nivel de Acesso alterado com sucesso</p>
+        <?php } ?>
+        <form name="form_edicao_nivel_acesso" method="post" action="../../../servicos/operacao/nivel_acesso/edicao.php">
+            <?php 
+                $nivelAcesso = (new NivelAcesso($id, null, null))->consultarPorID()['nivel_acesso'];                                                           
+            ?>
+            <div>
+                <label for="id">ID</label>
+                <input id="id" name="id" type="text" readonly value="<?php print $nivelAcesso->getId(); ?>"/>
+            </div>
+            <div>
+                <label for="nome">Nome</label>
+                <input id="nome" name="nome" type="text" value="<?php print $nivelAcesso->getNome(); ?>"/>
+            </div>
+            <div>
+                <label for="ativo">Ativo</label>
+                <input id="ativo" name="ativo" type="checkbox" 
+                    <?php 
+                        if($nivelAcesso->getAtivo()){
+                            print 'checked';
+                        } 
+                    ?>
+                "/>
+            </div>
+            <div>
+                <input type="submit" name="submit" value="Editar"/>
+            </div>
+        </form>
     </section>
     <footer>
         <?php require_once "../footer.php"; ?>
