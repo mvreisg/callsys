@@ -67,6 +67,43 @@ class Funcao
         }
     }
 
+    public function alterarPorId()
+    {
+        // Pega o objeto estático de Conexao
+        $conexao = Conexao::get();
+        try {
+            // Inicia a transação
+            $conexao->beginTransaction();
+
+            // Prepara a execução do código SQL pela conexão retornando um PDOStatement
+            $declaracao = $conexao->prepare("update funcao set nome = :nome, ativo = :ativo where id = :id;");
+
+            // Executa o PDOStatement, retornando um booleano se deu certo ou não
+            $deuCerto = $declaracao->execute(
+                array(
+                    ":id"    => $this->id,
+                    ":nome"  => $this->nome,
+                    ":ativo" => $this->ativo
+                )
+            );
+
+            // Checa se deu certo
+            if ($deuCerto) {
+                // Se deu certo, commita a transação e retorna uma chave de sucesso com a quantidade de linhas afetadas
+                $conexao->commit();
+                return array("sucesso" => $declaracao->rowCount());
+            } else {
+                // Senão, da rollback e retorna o erro
+                $conexao->rollBack();
+                return array("erro" => "Edição mal-sucedida");
+            }
+        } catch (PDOException $e) {
+            // catch dá rollback e retorna o erro
+            $conexao->rollBack();
+            return array("erro" => $e);
+        }
+    }
+
     public function alterarAtivo()
     {
         // Checa o valor das variáveis que serão usadas
@@ -103,6 +140,38 @@ class Funcao
         } catch (PDOException $e) {
             // catch retorna erro
             $conexao->rollBack();
+            return array("erro" => $e);
+        }
+    }
+
+    public function consultarPorID()
+    {
+        if (!isset($this->id)) {
+            return array("erro" => "id não informado");
+        }
+
+        // Pega o objeto estático de Conexao
+        $conexao = Conexao::get();
+        try {
+            $declaracao = $conexao->prepare("select * from funcao where id = :id");
+            $declaracao->execute(
+                array(
+                    ":id" => $this->id
+                )
+            );
+            $busca = $declaracao->fetch(PDO::FETCH_ASSOC);
+            if (!$busca) {
+                return array("erro" => "Não foi encontrado nenhuma função com o id {$this->id}");
+            } else {                                
+                return array(
+                    "funcao" => new Funcao(
+                        $busca['id'],
+                        $busca['nome'],
+                        $busca['ativo']
+                    )
+                );
+            }
+        } catch (PDOException $e) {
             return array("erro" => $e);
         }
     }

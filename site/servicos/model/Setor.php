@@ -60,7 +60,7 @@ class Setor
             } else {
                 // Senão, da rollback e retorna o erro
                 $conexao->rollBack();
-                return array("erro" => "Inserção de Setor mal-sucedida");
+                return array("erro" => "Inserção mal-sucedida");
             }
         } catch (PDOException $e) {
             // catch dá rollback e retorna o erro
@@ -97,7 +97,7 @@ class Setor
             } else {
                 // Senão, da rollback e retorna o erro
                 $conexao->rollBack();
-                return array("erro" => "Inserção de Setor mal-sucedida");
+                return array("erro" => "Edição mal-sucedida");
             }
         } catch (PDOException $e) {
             // catch dá rollback e retorna o erro
