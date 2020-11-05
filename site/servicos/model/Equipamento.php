@@ -76,6 +76,43 @@ class Equipamento
         }
     }
 
+    public function alterarPorId()
+    {
+        // Pega o objeto estático de Conexao
+        $conexao = Conexao::get();
+        try {
+            // Inicia a transação
+            $conexao->beginTransaction();
+
+            // Prepara a execução do código SQL pela conexão retornando um PDOStatement
+            $declaracao = $conexao->prepare("update equipamento set nome = :nome, ativo = :ativo where id = :id;");
+
+            // Executa o PDOStatement, retornando um booleano se deu certo ou não
+            $deuCerto = $declaracao->execute(
+                array(
+                    ":id"    => $this->id,
+                    ":nome"  => $this->nome,
+                    ":ativo" => $this->ativo
+                )
+            );
+
+            // Checa se deu certo
+            if ($deuCerto) {
+                // Se deu certo, commita a transação e retorna uma chave de sucesso com a quantidade de linhas afetadas
+                $conexao->commit();
+                return array("sucesso" => $declaracao->rowCount());
+            } else {
+                // Senão, da rollback e retorna o erro
+                $conexao->rollBack();
+                return array("erro" => "Edição mal-sucedida");
+            }
+        } catch (PDOException $e) {
+            // catch dá rollback e retorna o erro
+            $conexao->rollBack();
+            return array("erro" => $e);
+        }
+    }
+
     public function alterarAtivo()
     {
         // Checa o valor das variáveis que serão usadas
