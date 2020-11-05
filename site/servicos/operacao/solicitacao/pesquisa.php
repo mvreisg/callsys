@@ -57,6 +57,8 @@ function printarSolicitacao($solicitacao)
     print "</td>";
     print "<td>{$solicitacao->getDescricaoProblema()}</td>";
     print "<td>{$solicitacao->getDataHoraSolicitacao()}</td>";
-    print "<td><button onclick=\"redirecionarParaEdicao('$urlEdicao')\">Editar</button></td>";
+    if ($_SESSION['nivel_acesso'] == 1){
+        print "<td><button onclick=\"redirecionarParaEdicao('$urlEdicao')\">Editar</button></td>";
+    }
     print "</tr>";
 }

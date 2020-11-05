@@ -163,9 +163,11 @@ class Usuario
             );
             $ativo = $declaracao->rowCount() > 0;
 
+            $results = $declaracao->fetch(PDO::FETCH_ASSOC);
             return array(
-                "existe" => $existe,
-                "ativo"  => $ativo
+                "nivel_acesso" => $results['id_nivel_acesso'],
+                "existe"       => $existe,
+                "ativo"        => $ativo
             );
         } catch (PDOException $e) {
             return array("erro" => $e);

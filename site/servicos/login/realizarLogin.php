@@ -53,6 +53,7 @@ if (isset($_POST['submitLogin'])) {
             if ($ativo) {
                 // Se o usuário está ativo
                 $_SESSION['login'] = true;
+                $_SESSION['nivel_acesso'] = $resultado['nivel_acesso'];
                 // Seta a URL de redirecionamento para a página de início
                 $urlRedirecionamento = $urlInicio;
             } else {
