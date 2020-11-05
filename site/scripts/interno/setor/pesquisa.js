@@ -10,11 +10,9 @@ function pesquisarPorNome(url) {
     let inputPesquisa = document.getElementById('input_pesquisa');
     let nome = inputPesquisa.value;
     url += ("nome=" + nome + "&");
-    //alert(url);
     location.href = url;
 }
 
 function redirecionarParaEdicao(url){
-    alert(url);
     location.href = url;
 }

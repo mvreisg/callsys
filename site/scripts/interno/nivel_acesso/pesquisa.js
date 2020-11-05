@@ -15,6 +15,5 @@ function pesquisarPorNome(url) {
 }
 
 function redirecionarParaEdicao(url){
-    alert(url);
     location.href = url;
 }
