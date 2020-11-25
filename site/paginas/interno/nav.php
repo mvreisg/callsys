@@ -4,8 +4,11 @@ require_once "{$_SERVER['DOCUMENT_ROOT']}/estagio/site/servicos/request/Request.
 // Relação de Título e LINKS
 $items = array();
 
-$items[] = array("CallSYS"     => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/inicio.php");
-$items[] = array("Solicitação" => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/solicitacao/pesquisa.php");
+$items[] = array("CallSYS"                             => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/inicio.php");
+$items[] = array("Solicitação"                         => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/solicitacao/pesquisa.php");
+$items[] = array("Relatórios Solicitações Funcionário" => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/relatorios/solicitacoesFuncionario.php");
+$items[] = array("Relatórios Equipamentos Solicitação" => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/relatorios/equipamentosSolicitacao.php");
+$items[] = array("Relatórios Solicitações por Status"  => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/relatorios/solicitacoesStatus.php");
 
 if ($_SESSION['nivel_acesso'] == 1){
     $items[] = array("Usuário"         => Request::PREFIXO_URL . "{$_SERVER['SERVER_NAME']}/estagio/site/paginas/interno/usuario/pesquisa.php");
