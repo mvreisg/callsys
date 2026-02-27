@@ -1,15 +1,17 @@
 # Web-based Technical Support Ticket System
 
-Supervised Internship
-UNIFAFIBE University Center
-2020
+## Supervised Internship
+UNIFAFIBE University Center - 2020
 
-Students:
+## Students:
 - Marcus Vinicius Reis Gonçalves
 - Victor Hugo Capeli Felisberto
 
-Supervisor: Lucas Oliveira
+## Supervisor
+- Lucas Oliveira
 
-Internship Provider: FUNDACAO PIO XII
+## Internship Provider
+- FUNDACAO PIO XII
 
-Advisor: Rodrigo Gonçalves Santana
+## Advisor
+- Rodrigo Gonçalves Santana
